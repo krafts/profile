@@ -1,0 +1,123 @@
+[core]
+  editor = vim #atom --wait
+  excludesfile = ~/.gitignore_global
+  mergeoptions = --no-edit
+#[diff]
+# tool = diffmerge
+#[difftool "diffmerge"]
+# cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
+#[merge]
+# tool = diffmerge
+#[mergetool "diffmerge"]
+# cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
+# trustExitCode = true
+[push]
+  default = simple
+#[difftool "sourcetree"]
+# cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+# path =
+#[mergetool "sourcetree"]
+# cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.0.3/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+# trustExitCode = true
+[user]
+  name = $(id -un)
+  email = $(id -un)@$(cat ~/.domain)
+ 
+#[merge]
+# tool = sublimerge
+# conflictstyle = diff3
+ 
+#[mergetool "sublimerge"]
+# cmd = subl -n --wait \"$REMOTE\" \"$BASE\" \"$LOCAL\" \"$MERGED\" --command \"sublimerge_diff_views\"
+# trustExitCode = false
+ 
+[diff]
+  tool = sublimerge
+ 
+[difftool "sublimerge"]
+  cmd = subl -n --wait \"$REMOTE\" \"$LOCAL\" --command \"sublimerge_diff_views {\\\"left_read_only\\\": true, \\\"right_read_only\\\": true}\"
+[credential]
+  helper = osxkeychain
+ 
+[alias]
+  ec = config --global -e
+  st = status
+  ci = commit
+  br = branch
+  bra = branch --all
+  co = checkout
+  a = add
+  air = add --ignore-removal
+  rs = reset
+  df = diff
+  dc = diff --cached
+  dfs = diff --stat
+  dcs = diff --cached --stat
+  who = shortlog -s --
+  cl = clean
+  clf = clean -f
+  cld = clean -d
+  clfd = clean -fd
+  cliff = clean -f
+  cliffd = clean -fd
+  k = !gitk -all&
+  ft = fetch
+  mg = merge
+  pl = pull --rebase
+  po = pull --rebase origin
+  ps = push
+  ps = push
+  bl = blame -n
+  bs = "!git branch && git status"
+  fs = "!_() { git flow feature start \"$@\"; }; _"
+  fp = "!git flow feature publish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
+  ff = "!git flow feature finish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
+  fr = "!git flow feature rebase"
+  poo = "!_() { branch=\"$@\"; read -p \"DELETE $branch on origin! [y/N]: \"; if [[ $REPLY =~ ^[Yy]$ ]]; then git branch --unset-upstream $branch; git push origin :$branch; fi; }; _"
+  dodo = "!git poo $(git rev-parse --abbrev-ref HEAD)"
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+#  abbrbr = "!sh -c 'git rev-list --branches --reverse | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%C(yellow)%d%Creset %H %ci %an %s%n\" $commit; done' -"
+  oneline = "!_() { $(test $# -eq 0 && echo xargs -L1) git log --no-walk --decorate --oneline \"$@\"; }; _"
+  tips = "!_() { t=$(git rev-list --no-merges --max-count=1 \"$@\"); if test -n \"$t\"; then echo $t; _ \"$@\" ^$t; fi; }; _"
+  forkdiff = !bash -c 'git diff $(git merge-base "$1" "$2") "$2" "${@: 3}" ' -
+  alias = config --get-regexp ^alias\\.
+  sob = "!_() { git branch --remotes | grep -vi head | while read i; do git --no-pager log -n1 --pretty=format:\"%Cgreen%ci%Creset %Cred%H%Creset %C(yellow)%d%Creset  %an %s%n\" $i ;  done  | sort -n; }; _"
+  sobr = "!_() { git branch --remotes | grep -vi head | while read i; do git --no-pager log -n1 --pretty=format:\"%Cgreen%ci%Creset %Cred%H%Creset %C(yellow)%d%Creset  %an %s%n\" $i ;  done  | sort -nr; }; _"
+  st = stash
+  stop = stash pop
+  slap = stash apply
+  still = stash list
+  info = remote -v
+  rc = rebase --continue
+  ra = rebase --abort
+  sh = show
+  hf = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co develop && git pl && git co $b && git rebase master && h=$(echo $b | sed 's/hotfix\\///g') && git flow hotfix finish -m 'new_tag' $h && git co master && git ps && git co develop && git ps && git ps --tags && git poo $b && git br -D $b;  }; _"
+  hs = "!_() { git flow hotfix start \"$@\"; }; _"
+  hr = "!_() { h=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co $h && git rebase master; }; _"
+  hp = "!_() { git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD); }; _"
+  cr = diff develop -U30
+  crh = diff master -U30
+  rip = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co develop && git pl && git co $b && git fr && git ff && git ps && git poo $b && git br -D $b; }; _"
+  punt = remote prune origin
+ 
+[branch]
+  autosetuprebase = always
+[filter "hawser"]
+  clean = git hawser clean %f
+  smudge = git hawser smudge %f
+  required = true
+ 
+[merge]
+  keepBackup = false
+  tool = sublime
+ 
+#[mergetool "sublimerge"]
+#  cmd = subl -n --wait "<THEIRS>" "<BASE>" "<MINE>" "<MERGED>" --command "sublimerge_diff_views"
+# keepTemporaries = false
+# trustExitCode = false
+#  keepBackup = false
+ 
+[mergetool "sublime"]
+  cmd = subl -w $MERGED
+  trustExitCode = false
