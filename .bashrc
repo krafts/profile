@@ -16,18 +16,13 @@ export HISTTIMEFORMAT='%FT%T%z  '
 ## git
 export GIT_MERGE_AUTOEDIT=no
 
-## ansbile
-. ~/.ansible.conf
+## external imports
+for f in ~/.bash_aliases ~/.ansible.conf $(brew --prefix)/etc/bash_completion ~/.rackspace_project_creds
+do
+    if [ ! -f "$f" ]; then
+        continue
+    fi
 
-## git aliases
-if [ -f ~/.bash_aliases ]; then
-. ~/.bash_aliases
-fi
+    . "$f"
+done
 
-## brew
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
- . $(brew --prefix)/etc/bash_completion
-fi
-
-## rackspace neutron/nova
-. ~/.rackspace_project_creds
