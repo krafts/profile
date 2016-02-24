@@ -17,7 +17,7 @@ export HISTTIMEFORMAT='%FT%T%z  '
 export GIT_MERGE_AUTOEDIT=no
 
 ## external imports
-for f in ~/.bash_aliases ~/.ansible.conf $(brew --prefix)/etc/bash_completion ~/.rackspace_project_creds
+for f in ~/.bash_aliases ~/.ansible.conf $(brew --prefix)/etc/bash_completion ~/.rackspace_project_creds ~/.docker-machine
 do
     if [ ! -f "$f" ]; then
         continue
