@@ -13,6 +13,9 @@ export HISTSIZE=
 export HISTFILESIZE=
 export HISTTIMEFORMAT='%FT%T%z  '
 
+## editor
+export EDITOR=vim
+
 ## git
 export GIT_MERGE_AUTOEDIT=no
 
