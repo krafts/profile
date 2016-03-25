@@ -1,6 +1,6 @@
 # shortcuts for applications
 alias v='vagrant'
-alias vi='vim -N'
+alias vi=vim
 
 # grep color output
 alias grep='grep --color=auto'
