@@ -68,7 +68,6 @@
   bs = "!git branch && git status"
   fs = "!_() { git flow feature start \"$@\"; }; _"
   fp = "!git flow feature publish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
-  ff = "!git flow feature finish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
   fr = "!git flow feature rebase"
   poo = "!_() { branch=\"$@\"; read -p \"DELETE $branch on origin! [y/N]: \"; if [[ $REPLY =~ ^[Yy]$ ]]; then git branch --unset-upstream $branch; git push origin :$branch; fi; }; _"
   dodo = "!git poo $(git rev-parse --abbrev-ref HEAD)"
@@ -89,14 +88,15 @@
   rc = rebase --continue
   ra = rebase --abort
   sh = show
-  hf = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co develop && git pl && git co $b && git rebase master && h=$(echo $b | sed 's/hotfix\\///g') && git flow hotfix finish -m 'new_tag' $h && git co master && git ps && git co develop && git ps && git ps --tags && git poo $b && git br -D $b;  }; _"
+  hf = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co develop && git pl && git co $b && git rebase master && h=$(echo $b | sed 's/hotfix\\///g') && git flow hotfix finish -m 'new_tag' $h && git co master && git ps && git co develop && git ps && git ps --tags && git poo $b && git dlb $b;  }; _"
   hs = "!_() { git flow hotfix start \"$@\"; }; _"
   hr = "!_() { h=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co $h && git rebase master; }; _"
   hp = "!_() { git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD); }; _"
   cr = diff develop -U30
   crh = diff master -U30
-  rip = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co develop && git pl && git co $b && git fr && git ff && git ps && git poo $b && git br -D $b; }; _"
+  ff = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co develop && git pl && git co $b && git fr && git flow feature finish $(echo $b | sed 's/feature\\///g') && git ps && git poo $b && git dlb $b; }; _"
   punt = remote prune origin
+  dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && git br -D \"$branch\"; }; _"
  
 [branch]
   autosetuprebase = always
