@@ -1,3 +1,5 @@
 set nocompatible
 set backspace=indent,eol,start
-colorscheme ron
+colorscheme Tomorrow-Night-Bright
+filetype on
+autocmd Filetype gitcommit setlocal spell textwidth=72
