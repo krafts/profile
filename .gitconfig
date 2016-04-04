@@ -33,8 +33,8 @@
  
 [difftool "sublimerge"]
   cmd = subl -n --wait \"$REMOTE\" \"$LOCAL\" --command \"sublimerge_diff_views {\\\"left_read_only\\\": true, \\\"right_read_only\\\": true}\"
-[credential]
-  helper = osxkeychain
+#[credential]
+#  helper = osxkeychain
  
 [alias]
   ec = config --global -e
