@@ -95,7 +95,7 @@
   cr = diff develop -U30
   crh = diff master -U30
   ff = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co develop && git pl && git co $b && git fr && git flow feature finish $(echo $b | sed 's/feature\\///g') && git ps && git poo $b && git dlb $b; }; _"
-  punt = remote prune origin
+  punt = "!_() { git remote prune origin && git branch -vv | grep ': gone] ' | awk '{print $1}' | xargs git br -D; }; _"
   dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && git br -D \"$branch\"; }; _"
  
 [branch]
