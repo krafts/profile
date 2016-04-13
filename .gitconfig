@@ -71,8 +71,8 @@
   fr = "!git flow feature rebase"
   poo = "!_() { branch=\"$@\"; if [ $(git bra | grep  \"remotes/origin/$branch\" | wc -l) -le 0 ]; then echo "$branch does not exist on origin"; exit 0; fi; printf \"DELETE $branch on origin! [y/N]: \"; read answer; if echo "$answer" | grep -iq "^y"; then git push origin :$branch; fi; }; _"
   dodo = "!git poo $(git rev-parse --abbrev-ref HEAD)"
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-  lgi = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI) %C(bold blue)<%an>%Creset'
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI) %C(bold blue)<%an>%Creset'
+  lgr = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
   abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
 #  abbrbr = "!sh -c 'git rev-list --branches --reverse | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%C(yellow)%d%Creset %H %ci %an %s%n\" $commit; done' -"
   oneline = "!_() { $(test $# -eq 0 && echo xargs -L1) git log --no-walk --decorate --oneline \"$@\"; }; _"
