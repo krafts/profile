@@ -37,7 +37,8 @@
 #  helper = osxkeychain
  
 [alias]
-  ec = config --global -e
+  ecg = config --global -e
+  ecl = config --local -e
   st = status
   ci = commit
   br = branch
