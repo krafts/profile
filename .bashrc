@@ -24,7 +24,7 @@ export GIT_MERGE_AUTOEDIT=no
 ssh-add ~/.ssh/id_rsa
 
 ## external imports
-for f in ~/.bash_aliases ~/.ansible.conf $(brew --prefix)/etc/bash_completion ~/.rackspace_project_creds ~/.docker-machine
+for f in ~/.bash_aliases ~/.ansible.conf $(brew --prefix)/etc/bash_completion ~/.rackspace_project_creds
 do
     if [ ! -f "$f" ]; then
         continue
