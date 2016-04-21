@@ -67,7 +67,7 @@
   ps = push
   bl = blame -n
   bs = "!git branch && git status"
-  fs = "!_() { git flow feature start \"$@\"; }; _"
+  fs = "!_() { git flow feature start \"$@\" && git fp; }; _"
   fp = "!git flow feature publish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
   fr = "!git flow feature rebase"
   poo = "!_() { branch=\"$@\"; if [ $(git bra | grep  \"remotes/origin/$branch\" | wc -l) -le 0 ]; then echo "$branch does not exist on origin"; exit 0; fi; printf \"DELETE $branch on origin! [y/N]: \"; read answer; if echo "$answer" | grep -iq "^y"; then git push origin :$branch; fi; }; _"
