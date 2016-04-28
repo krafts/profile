@@ -64,12 +64,11 @@
   pl = pull --rebase
   po = pull --rebase origin
   ps = push
-  ps = push
   bl = blame -n
   bs = "!git branch && git status"
   fs = "!_() { git flow feature start \"$@\" && git fp; }; _"
   fp = "!git flow feature publish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
-  fr = "!git flow feature rebase"
+  fr = "!_() { git flow feature rebase && git psf; }; _"
   poo = "!_() { branch=\"$@\"; if [ $(git bra | grep  \"remotes/origin/$branch\" | wc -l) -le 0 ]; then echo "$branch does not exist on origin"; exit 0; fi; printf \"DELETE $branch on origin! [y/N]: \"; read answer; if echo "$answer" | grep -iq "^y"; then git push origin :$branch; fi; }; _"
   dodo = "!git poo $(git rev-parse --abbrev-ref HEAD)"
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI) %C(bold blue)<%an>%Creset'
@@ -91,14 +90,15 @@
   ra = rebase --abort
   sh = show
   hf = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co develop && git pl && git co $b && git rebase master && h=$(echo $b | sed 's/hotfix\\///g') && git flow hotfix finish -m 'new_tag' $h && git co master && git ps && git co develop && git ps && git ps --tags && git poo $b && git dlb $b;  }; _"
-  hs = "!_() { git flow hotfix start \"$@\"; }; _"
-  hr = "!_() { h=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co $h && git rebase master; }; _"
+  hs = "!_() { git flow hotfix start \"$@\" && git hp; }; _"
+  hr = "!_() { h=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co $h && git rebase master && git psf; }; _"
   hp = "!_() { git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD); }; _"
   cr = diff develop -U30
   crh = diff master -U30
   ff = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co develop && git pl && git co $b && git fr && git flow feature finish $(echo $b | sed 's/feature\\///g') && git ps && git poo $b && git dlb $b; }; _"
   punt = "!_() { git remote prune origin && git branch -vv | grep ': gone] ' | awk '{print $1}' | xargs git br -D; }; _"
   dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && git br -D \"$branch\"; }; _"
+  psf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" == \"develop\" ]; then echo \"cannot force push develop\"; exit 1; elif [ \"$branch\" == \"master\" ]; then echo \"cannot force push master\"; exit 1; else git ps --force; fi; }; _"
  
 [branch]
   autosetuprebase = always
