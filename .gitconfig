@@ -89,7 +89,7 @@
   rc = rebase --continue
   ra = rebase --abort
   sh = show
-  hf = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co master && git pl && git co develop && git pl && git co $b && git rebase master && h=$(echo $b | sed 's/hotfix\\///g') && git flow hotfix finish -m 'new_tag' $h && git co master && git ps && git co develop && git ps && git ps --tags && git poo $b && git dlb $b;  }; _"
+  hf = "!_() { git hr && h=$(git rev-parse --abbrev-ref HEAD | sed 's/hotfix\\///g') && git flow hotfix finish -m 'new_tag' $h && git co master && git ps && git co develop && git ps && git ps --tags && git poo $b && git dlb $b;  }; _"
   hs = "!_() { git flow hotfix start \"$@\" && git hp; }; _"
   hr = "!_() { h=$(git rev-parse --abbrev-ref HEAD) && if echo $h | grep -vq ^hotfix 2>&1>/dev/null; then echo \"$h is not a hotfix, cannot proceed\"; exit 1; fi && git co master && git pl && git co $h && git rebase master && git psf; }; _"
   hp = "!_() { git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD); }; _"
