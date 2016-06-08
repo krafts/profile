@@ -2,44 +2,27 @@
   editor = vim #atom --wait
   excludesfile = ~/.gitignore_global
   mergeoptions = --no-edit
-#[diff]
-# tool = diffmerge
-#[difftool "diffmerge"]
-# cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
-#[merge]
-# tool = diffmerge
-#[mergetool "diffmerge"]
-# cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
-# trustExitCode = true
 [push]
   default = simple
-#[difftool "sourcetree"]
-# cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-# path =
-#[mergetool "sourcetree"]
-# cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.0.3/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-# trustExitCode = true
- 
-#[merge]
-# tool = sublimerge
-# conflictstyle = diff3
- 
-#[mergetool "sublimerge"]
-# cmd = subl -n --wait \"$REMOTE\" \"$BASE\" \"$LOCAL\" \"$MERGED\" --command \"sublimerge_diff_views\"
-# trustExitCode = false
+
+[merge]
+  tool = vimdiff
+
+[mergetool]
+  prompt = false
  
 [diff]
   tool = sublimerge
  
 [difftool "sublimerge"]
   cmd = subl -n --wait \"$REMOTE\" \"$LOCAL\" --command \"sublimerge_diff_views {\\\"left_read_only\\\": true, \\\"right_read_only\\\": true}\"
+
 #[credential]
 #  helper = osxkeychain
  
 [alias]
   ecg = config --global -e
   ecl = config --local -e
-  st = status
   ci = commit
   br = branch
   bra = branch --all
@@ -107,16 +90,3 @@
   smudge = git hawser smudge %f
   required = true
  
-[merge]
-  keepBackup = false
-  tool = sublime
- 
-#[mergetool "sublimerge"]
-#  cmd = subl -n --wait "<THEIRS>" "<BASE>" "<MINE>" "<MERGED>" --command "sublimerge_diff_views"
-# keepTemporaries = false
-# trustExitCode = false
-#  keepBackup = false
- 
-[mergetool "sublime"]
-  cmd = subl -w $MERGED
-  trustExitCode = false
