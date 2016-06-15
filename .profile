@@ -26,20 +26,8 @@ do
     . "$f"
 done
 
-# setting PATH for Python 2.7.11 and depending libgs
-typeset -x OPENSSL_PATH="$HOME/local/openssl/bin"
-typeset -x PYTHONPATH="$HOME/local/python/bin"
-typeset -x CORE_UTILS_PATH="$HOME/local/coreutils/bin"
-typeset -x PATH="$CORE_UTILS_PATH:$OPENSSL_PATH:$PYTHONPATH:$PATH"
-
-# for python ssl cert support
-typeset -x SSL_CERT_FILE="$HOME/local/openssl/certs/cacert.pem"
-
-# setting up path for man pages
-typeset -x MANPATH="$HOME/local/openssl/ssl/man:$MANPATH"
-typeset -x WORKON_HOME="$HOME/venv"
-source "$PYTHONPATH/virtualenvwrapper.sh"
-
 # dedup path at the end
 ## thanks to http://unix.stackexchange.com/questions/14895/duplicate-entries-in-path-a-problem
 export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++')
+
+. ~/.virtualenv-profile.sh
