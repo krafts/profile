@@ -82,6 +82,11 @@
   punt = "!_() { git remote prune origin && git branch -vv | grep ': gone] ' | awk '{print $1}' | xargs git br -D; }; _"
   dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && git br -D \"$branch\"; }; _"
   psf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" == \"develop\" ]; then echo \"cannot force push develop\"; exit 1; elif [ \"$branch\" == \"master\" ]; then echo \"cannot force push master\"; exit 1; else git ps --force; fi; }; _"
+  account = "!_() { git remote -v | awk -F':' '{print $2}' | awk '{print $1}' | awk -F'/' '{print $1}' | sort | uniq | head -1; }; _"
+  repo = "!_() { git remote -v | awk -F':' '{print $2}' | awk '{print $1}' | awk -F'/' '{print $2}' | awk -F'.' '{print $1}' | sort | uniq | head -1; }; _"
+  prbase = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && if echo $b | grep -q ^hotfix 2>&1>/dev/null; then echo master; elif echo $b | grep -q ^feature 2>&1>/dev/null; then echo develop; fi; }; _"
+  brn = rev-parse --abbrev-ref HEAD
+  pr = "!_() { b=$(git brn) && token=$(cat ~/.github_git_alias_auth_token) && if echo $b | grep -vq -e ^hotfix -e ^feature 2>&1>/dev/null; then echo \"not a hotfix or feature, cannot create pull request.\"; exit 1; fi && curl -H \"Authorization: token $token\" --data \"{ \\\"title\\\": \\\"$b\\\", \\\"body\\\": \\\"Please pull this in!\\\", \\\"head\\\": \\\"$b\\\", \\\"base\\\": \\\"$(git prbase)\\\", \\\"assignees\\\": [$(cat ~/.github_git_alias_assignee_list)] }\" https://api.github.com/repos/$(git account)/$(git repo)/pulls; }; _"
  
 [branch]
   autosetuprebase = always
