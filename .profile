@@ -1,6 +1,6 @@
 ## essentials
 export PS1="\D{%Y-%m-%dT%H:%M:%SZ%z} \u@\h:\w $ "
-export PATH="~/scripts:/usr/local/bin:$PATH"
+export PATH="~/scripts:/usr/local/bin:$PATH:/sbin"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
