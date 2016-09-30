@@ -86,8 +86,9 @@
   repo = "!_() { git remote -v | awk -F':' '{print $2}' | awk '{print $1}' | awk -F'/' '{print $2}' | awk -F'.' '{print $1}' | sort | uniq | head -1; }; _"
   prbase = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && if echo $b | grep -q ^hotfix 2>&1>/dev/null; then echo master; elif echo $b | grep -q ^feature 2>&1>/dev/null; then echo develop; fi; }; _"
   brn = rev-parse --abbrev-ref HEAD
-  pr = "!_() { b=$(git brn) && token=$(cat ~/.github_git_alias_auth_token) && if echo $b | grep -vq -e ^hotfix -e ^feature 2>&1>/dev/null; then echo \"not a hotfix or feature, cannot create pull request.\"; exit 1; fi && curl -H \"Authorization: token $token\" --data \"{ \\\"title\\\": \\\"$b\\\", \\\"body\\\": \\\"Please pull this in!\\\", \\\"head\\\": \\\"$b\\\", \\\"base\\\": \\\"$(git prbase)\\\", \\\"assignees\\\": [$(cat ~/.github_git_alias_assignee_list)] }\" https://api.github.com/repos/$(git account)/$(git repo)/pulls; }; _"
- 
+  pr = "!_() { b=$(git brn) && token=$(cat ~/.github_git_alias_auth_token) && if echo $b | grep -vq -e ^hotfix -e ^feature 2>&1>/dev/null; then echo \"not a hotfix or feature, cannot create pull request.\"; exit 1; fi && curl -H \"Authorization: token $token\" -H \"Content-Type: application/json\" --data \"{ \\\"title\\\": \\\"$b\\\", \\\"body\\\": \\\"Please pull this in!\\\", \\\"head\\\": \\\"$b\\\", \\\"base\\\": \\\"$(git prbase)\\\" }\" https://api.github.com/repos/$(git account)/$(git repo)/pulls; }; _"
+  #pr = "!_() { b=$(git brn) && token=$(cat ~/.github_git_alias_auth_token) && if echo $b | grep -vq -e ^hotfix -e ^feature 2>&1>/dev/null; then echo \"not a hotfix or feature, cannot create pull request.\"; exit 1; fi && curl -H \"Authorization: token $token\" -H \"Content-Type: application/json\" --data \"{ \\\"title\\\": \\\"$b\\\", \\\"body\\\": \\\"Please pull this in!\\\", \\\"head\\\": \\\"$b\\\", \\\"base\\\": \\\"$(git prbase)\\\", \\\"assignees\\\": [ $(cat ~/.github_git_alias_assignee_list) ] }\" https://api.github.com/repos/$(git account)/$(git repo)/pulls; }; _"
+
 [branch]
   autosetuprebase = always
 [filter "hawser"]
