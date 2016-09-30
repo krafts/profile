@@ -48,7 +48,7 @@
   po = pull --rebase origin
   ps = push
   bl = blame -n
-  bs = "!git branch && git status"
+  s = status --short --branch
   fs = "!_() { git flow feature start \"$@\" && git fp; }; _"
   fp = "!git flow feature publish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
   fr = "!_() { git flow feature rebase && git psf; }; _"
