@@ -24,7 +24,7 @@
   ecg = config --global -e
   ecl = config --local -e
   ci = commit
-  br = branch
+  b = branch
   bra = branch --all
   co = checkout
   a = add
@@ -79,7 +79,7 @@
   cr = diff develop -U30
   crh = diff master -U30
   ff = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co develop && git pl && git co $b && git fr && git flow feature finish $(echo $b | sed 's/feature\\///g') && git ps && git poo $b && git dlb $b; }; _"
-  punt = "!_() { git remote prune origin && git branch -vv | grep ': gone] ' | awk '{print $1}' | xargs git br -D; }; _"
+  punt = "!_() { git remote prune origin && git branch -vv | grep ': gone] ' | awk '{print $1}' | xargs git branch -D; }; _"
   dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && git br -D \"$branch\"; }; _"
   psf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" == \"develop\" ]; then echo \"cannot force push develop\"; exit 1; elif [ \"$branch\" == \"master\" ]; then echo \"cannot force push master\"; exit 1; else git ps --force; fi; }; _"
   account = "!_() { git remote -v | awk -F':' '{print $2}' | awk '{print $1}' | awk -F'/' '{print $1}' | sort | uniq | head -1; }; _"
