@@ -1,6 +1,6 @@
 ## essentials
 export PS1="\D{%Y-%m-%dT%H:%M:%SZ%z} \u@\h:\w $ "
-export PATH="~/scripts:/usr/local/bin:$PATH:/sbin"
+export PATH="~/scripts:/usr/local/bin:$PATH:/sbin:~/local/ripgrep"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
@@ -31,3 +31,5 @@ done
 export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++')
 
 . ~/.virtualenv-profile.sh
+
+
