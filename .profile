@@ -1,5 +1,5 @@
-## essentials
-export PS1="\D{%Y-%m-%dT%H:%M:%SZ%z} \u@\h:\w $ "
+## essentials 1
+#export PS1="\D{%Y-%m-%dT%H:%M:%SZ%z} \u@\h:\w $ "
 export PATH="~/scripts:/usr/local/bin:$PATH:/sbin:~/local/ripgrep"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -17,7 +17,7 @@ export GIT_MERGE_AUTOEDIT=no
 ssh-add ~/.ssh/id_rsa
 
 ## external imports
-for f in ~/.bash_aliases ~/.ansible.conf ~/.rackspace_project_creds
+for f in ~/.bash_aliases ~/.ansible.conf ~/.rackspace_project_creds ~/.git-prompt.sh
 do
     if [ ! -f "$f" ]; then
         continue
@@ -31,3 +31,14 @@ done
 export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++')
 
 . ~/.virtualenv-profile.sh
+
+## tmux init
+#. ~/.tmux.sh
+
+## essentials 2
+PROMPT_COMMAND='__git_ps1 "\D{%Y-%m-%dT%H:%M:%SZ%z} \u@\h:\w" "\\\$ "'
+GIT_PS1_SHOWDIRTYSTATE=true
+#GIT_PS1_SHOWSTASHSTATE=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
+GIT_PS1_SHOWUPSTREAM="verbose"
+#GIT_PS1_SHOWCOLORHINTS=true
