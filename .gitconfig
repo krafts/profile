@@ -51,7 +51,7 @@
   s = status --short --branch
   fs = "!_() { git flow feature start \"$@\" && git fp; }; _"
   fp = "!git flow feature publish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
-  fr = "!_() { git flow feature rebase && git psf; }; _"
+  fr = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co develop && git pl && git co $b && git flow feature rebase && git psf; }; _"
   poo = "!_() { branch=\"$@\"; if [ $(git bra | grep  \"remotes/origin/$branch\" | wc -l) -le 0 ]; then echo "$branch does not exist on origin"; exit 0; fi; printf \"DELETE $branch on origin! [y/N]: \"; read answer; if echo "$answer" | grep -iq "^y"; then git push origin :$branch; fi; }; _"
   dodo = "!git poo $(git rev-parse --abbrev-ref HEAD)"
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI %cr) %C(bold blue)<%an>%Creset'
@@ -78,7 +78,7 @@
   hp = "!_() { git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD); }; _"
   cr = diff develop -U30
   crh = diff master -U30
-  ff = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git co develop && git pl && git co $b && git fr && git flow feature finish $(echo $b | sed 's/feature\\///g') && git ps && git poo $b && git dlb $b; }; _"
+  ff = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git fr && git flow feature finish $(echo $b | sed 's/feature\\///g') && git ps && git poo $b && git dlb $b; }; _"
   punt = "!_() { git remote prune origin && git branch -vv | grep ': gone] ' | awk '{print $1}' | xargs git branch -D; }; _"
   dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && git br -D \"$branch\"; }; _"
   psf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" == \"develop\" ]; then echo \"cannot force push develop\"; exit 1; elif [ \"$branch\" == \"master\" ]; then echo \"cannot force push master\"; exit 1; else git ps --force; fi; }; _"
