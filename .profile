@@ -38,7 +38,7 @@ export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++')
 ## essentials 2
 PROMPT_COMMAND='__git_ps1 "\D{%Y-%m-%dT%H:%M:%SZ%z} \u@\h:\w" "\\\$ "'
 GIT_PS1_SHOWDIRTYSTATE=true
-#GIT_PS1_SHOWSTASHSTATE=true
+GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM="verbose"
 #GIT_PS1_SHOWCOLORHINTS=true
