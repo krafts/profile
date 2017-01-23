@@ -12,7 +12,7 @@
 # grep xyz -h --color ~/.bash_history.*
 #
 
-KEEP=200
+KEEP=0
 BASH_HIST=~/.bash_history
 BACKUP=$BASH_HIST.$(date +%Y-%m-%d)
 
