@@ -1,5 +1,5 @@
 ## essentials 1
-#export PS1="\D{%Y-%m-%dT%H:%M:%SZ%z} \u@\h:\w \${?##0} $ "
+#export PS1="\D{%Y-%m-%dT%H:%M:%S%z} \u@\h:\w \${?##0} $ "
 export PATH="~/scripts:/usr/local/bin:$PATH:/sbin:~/local/ripgrep"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -36,7 +36,7 @@ export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++')
 #. ~/.tmux.sh
 
 ## essentials 2
-PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\D{%Y-%m-%dT%H:%M:%SZ%z} \u@\h:\w" " \${?##0} \\\$ "'
+PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\D{%Y-%m-%dT%H:%M:%S%z} \u@\h:\w" " \${?##0} \\\$ "'
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
