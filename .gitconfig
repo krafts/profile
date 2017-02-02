@@ -50,7 +50,7 @@
   ps = push
   bl = blame -n
   s = status --short --branch
-  fs = "!_() { git flow feature start \"$@\" && git fp; }; _"
+  fs = "!_() { git co develop && git pl && git flow feature start \"$@\" && git fp; }; _"
   fp = "!git flow feature publish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
   fr = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && if echo $b | grep -vq -e ^feature 2>&1>/dev/null; then echo \"$b is not a feature, cannot proceed\"; exit 1; fi && git co develop && git pl && git co $b && git flow feature rebase && git psf; }; _"
   poo = "!_() { branch=\"$@\"; if [ $(git bra | grep  \"remotes/origin/$branch\" | wc -l) -le 0 ]; then echo "$branch does not exist on origin"; exit 0; fi; printf \"DELETE $branch on origin! [y/N]: \"; read answer; if echo "$answer" | grep -iq "^y"; then git push origin :$branch; fi; }; _"
@@ -74,7 +74,7 @@
   ra = rebase --abort
   sh = show
   hf = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git hr && git co develop && git pl && git co $b && h=$(echo $b | sed 's/hotfix\\///g') && git flow hotfix finish -m hotfix_finished_on_$(date +'%Y-%m-%dT%H:%M:%S%z') $h && git co master && git ps && git co develop && git ps && git ps --tags && git poo $b && git dlb $b; }; _"
-  hs = "!_() { git flow hotfix start \"$@\" && git hp; }; _"
+  hs = "!_() { git co  master && git pl && git flow hotfix start \"$@\" && git hp; }; _"
   hr = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && if echo $b | grep -vq ^hotfix 2>&1>/dev/null; then echo \"$b is not a hotfix, cannot proceed\"; exit 1; fi && git co master && git pl && git co $b && git rebase master && git psf; }; _"
   hp = "!_() { git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD); }; _"
   cr = diff develop -U30
