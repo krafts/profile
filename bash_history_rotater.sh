@@ -25,7 +25,8 @@ if [ -s "$BASH_HIST" -a "$BASH_HIST" -nt "$BACKUP" ]; then
     # create new backup, leave last few commands and reinitialize
     mv -f $BASH_HIST $BACKUP
     tail -n$KEEP $BACKUP > $BASH_HIST
-    echo -e "#$(date +%s)\nls" > $BASH_HIST
+    echo "#$(date +%s)" > $BASH_HIST
+    echo "ls" >> $BASH_HIST
     history -r
   fi
 fi
