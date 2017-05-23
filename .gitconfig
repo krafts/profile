@@ -105,3 +105,6 @@
   log = diff-highlight | less
   show = diff-highlight | less
   diff = diff-highlight | less
+
+[filter "trimWhitespace"]
+  clean = git-stripspace
