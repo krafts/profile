@@ -13,3 +13,9 @@ alias vp="vagrant provision"
 
 # gcal/cal
 alias caly="gcal $(date +'%Y')"
+
+# time
+###### alias time="/usr/bin/time -lp"
+
+# for clearing screen POSIX way
+alias cls="clear; printf '\033[3J'"
