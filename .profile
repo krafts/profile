@@ -1,6 +1,6 @@
 ## essentials 1
 #export PS1="\$(timestamp) \u@\h:\w \${?##0} $ "
-export PATH="~/scripts:/usr/local/bin:$PATH:/sbin:~/local/ripgrep"
+export PATH="~/scripts:/usr/local/bin:$PATH:/sbin:~/local/ripgrep:~/local/coreutils/bin"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
@@ -41,4 +41,4 @@ GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM="verbose"
-#GIT_PS1_SHOWCOLORHINTS=true
+GIT_PS1_SHOWCOLORHINTS=true
