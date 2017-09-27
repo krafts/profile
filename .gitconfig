@@ -22,6 +22,8 @@
 #  helper = osxkeychain
  
 [alias]
+  git = !exec git
+  sha = rev-parse HEAD
   ecg = config --global -e
   ecl = config --local -e
   ci = commit
