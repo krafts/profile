@@ -18,7 +18,7 @@ export GIT_MERGE_AUTOEDIT=no
 ssh-add ~/.ssh/id_rsa
 
 ## external imports
-for f in ~/.bash_aliases ~/.ansible.conf ~/.rackspace_project_creds ~/.git-prompt.sh ~/.bashrc_da ~/workspace/da/dev-env/profile_bash.sh ~/.envtool.sh
+for f in ~/.bash_aliases ~/.ansible.conf ~/.rackspace_project_creds ~/.git-prompt.sh ~/.bashrc_da ~/workspace/da/dev-env/profile_bash.sh ~/.envtool.sh ~/.nix-profile/etc/profile.d/nix.sh
 do
     if [ ! -f "$f" ]; then
         continue
