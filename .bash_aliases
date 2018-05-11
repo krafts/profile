@@ -19,3 +19,6 @@ alias caly="gcal $(date +'%Y')"
 
 # for clearing screen POSIX way
 alias cls="clear; printf '\033[3J'"
+
+# bash history searcher
+alias bhs="~/workspace/profile/bash_history_search.sh"
