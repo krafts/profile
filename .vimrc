@@ -1,5 +1,13 @@
 set nocompatible
 set backspace=indent,eol,start
+"set number
+"set list
+set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<,space:·,nbsp:%
+set expandtab
+set tabstop=2
+set shiftwidth=2
+
+syntax on
 colorscheme Tomorrow-Night-Bright
 filetype on
 autocmd Filetype gitcommit setlocal spell textwidth=72
