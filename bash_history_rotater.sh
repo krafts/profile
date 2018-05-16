@@ -12,27 +12,24 @@
 # grep xyz -h --color ~/.bash_history.*
 #
 
-DEFAULT_UMASK="$(umask)"
-
 KEEP=0
 BASH_HIST=~/.bash_history
 BACKUP=$BASH_HIST.$(date +%Y-%m-%d)
 
 if [ -s "$BASH_HIST" -a "$BASH_HIST" -nt "$BACKUP" ]; then
-  # readonly for the current user
-  # creates the file with mode 0400
-  umask 0377
   # history file is newer then backup
   if [[ -f $BACKUP ]]; then
     # there is already a backup
     cp -f $BASH_HIST $BACKUP
+    chmod 0400 $BACKUP
   else
     # create new backup, leave last few commands and reinitialize
     mv -f $BASH_HIST $BACKUP
+    chmod 0400 $BACKUP
+    umask 0177 # create files as 0600
     tail -n$KEEP $BACKUP > $BASH_HIST
     echo "#$(date +%s)" > $BASH_HIST
     echo "ls" >> $BASH_HIST
     history -r
   fi
-  umask "$DEFAULT_UMASK"
 fi
