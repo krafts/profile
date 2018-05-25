@@ -59,6 +59,7 @@
   dodo = "!git poo $(git rev-parse --abbrev-ref HEAD)"
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI %cr) %C(bold blue)<%an>%Creset'
   lgr = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  lge = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI %cr) %C(bold blue)<%an [%ae]>%Creset'
   abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
 #  abbrbr = "!sh -c 'git rev-list --branches --reverse | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%C(yellow)%d%Creset %H %ci %an %s%n\" $commit; done' -"
   oneline = "!_() { $(test $# -eq 0 && echo xargs -L1) git log --no-walk --decorate --oneline \"$@\"; }; _"
