@@ -101,6 +101,8 @@
   ab = "!_() { branch=$(git brn) && if [ \"$branch\" != \"master\" ]; then echo \"cannot start a branch from anything else other than master\"; exit 1; fi && git pl && git b \"$1\" && git co \"$1\" && git ps -u origin \"$1\"; }; _"
   aft = "!_() { branch=$(git brn) && if [ \"$branch\" == \"master\" ]; then echo \"cannot merge master into master\"; exit 1; fi && git ar && git co master && pr_number=$(curl -H \\\"Authorization: token $(cat ~/.github_git_alias_auth_token)\\\" -H \\\"Content-Type: application/json\\\" https://api.github.com/repos/$(git account)/$(git repo)/pulls; | jq '.[]| {(.head.ref): .number}' | grep \"$branch\" | awk '{print $2}') && echo $pr_number; }; _"
 
+## chlogm =  !sh -c 'git log $1...$2  --pretty=format:\"%s [view commit](http://github.com/$3/$4/commit/%H) \"' ## https://coderwall.com/p/5cv5lg/generate-your-changelogs-with-git-log, top comment by bainternet
+
 [branch]
   autosetuprebase = always
 [filter "hawser"]
