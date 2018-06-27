@@ -22,3 +22,9 @@ alias cls="clear; printf '\033[3J'"
 
 # bash history searcher
 alias bhs="~/workspace/profile/bash_history_search.sh"
+
+# sublime text
+alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -n"
+
+# docker
+alias docker_clean="docker container prune -f && docker image prune -f"
