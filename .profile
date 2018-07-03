@@ -44,7 +44,7 @@ export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g'
 #. ~/.tmux.sh
 
 ## essentials 2
-PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(timestamp) \u@\h:\w" " \${?##0} \\\$ "'
+PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(timestamp) \u@\h:\w" " \${?##0} \$(~/scripts/get_virtualenv_name.sh) \\\$ "'
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
