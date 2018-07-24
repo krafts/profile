@@ -12,7 +12,7 @@ colorscheme Tomorrow-Night-Bright
 filetype on
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
-""remove trailing whilespaces
+""remove trailing whitespaces
 autocmd BufWritePre * %s/\s\+$//e
 
 ""remove trailing blank lines
