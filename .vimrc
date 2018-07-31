@@ -16,7 +16,7 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 autocmd BufWritePre * %s/\s\+$//e
 
 ""remove trailing blank lines
-autocmd BufWritePre * %s#\($\n\s*\)\+\%$##
+"autocmd BufWritePre * %s#\($\n\s*\)\+\%$##
 
 set laststatus=2 "show the status line
 set statusline=%-10.3n  "buffer number
