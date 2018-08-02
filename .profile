@@ -42,6 +42,7 @@ export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g'
 
 ## tmux init
 #. ~/.tmux.sh
+export TMUX_TMPDIR=$HOME
 
 ## essentials 2
 PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(timestamp) \u@\h:\w" " \${?##0}\$(~/scripts/get_virtualenv_name.sh) \\\$ "'
