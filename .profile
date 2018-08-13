@@ -1,6 +1,6 @@
-## essentials 1
+## essentials
 #export PS1="\$(timestamp) \u@\h:\w \${?##0} $ "
-export PATH="/opt/local/bin:/opt/local/sbin:~/scripts:/usr/local/bin:$PATH:/sbin:~/local/ripgrep:~/local/coreutils/bin"
+export PATH="~/local/make/bin:/opt/local/bin:/opt/local/sbin:~/scripts:/usr/local/bin:~/local/ripgrep:~/local/coreutils/bin:$PATH:/sbin"
 export MANPATH=/opt/local/share/man:$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
