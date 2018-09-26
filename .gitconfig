@@ -60,14 +60,14 @@
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI %cr) %C(bold blue)<%an>%Creset'
   lgr = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
   lge = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI %cr) %C(bold blue)<%an [%ae]>%Creset'
-  abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
-#  abbrbr = "!sh -c 'git rev-list --branches --reverse | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%C(yellow)%d%Creset %H %ci %an %s%n\" $commit; done' -"
+  abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %cI %an %s%n\" $commit; done' -"
+#  abbrbr = "!sh -c 'git rev-list --branches --reverse | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%C(yellow)%d%Creset %H %cI %an %s%n\" $commit; done' -"
   oneline = "!_() { $(test $# -eq 0 && echo xargs -L1) git log --no-walk --decorate --oneline \"$@\"; }; _"
   tips = "!_() { t=$(git rev-list --no-merges --max-count=1 \"$@\"); if test -n \"$t\"; then echo $t; _ \"$@\" ^$t; fi; }; _"
   forkdiff = !bash -c 'git diff $(git merge-base "$1" "$2") "$2" "${@: 3}" ' -
   alias = config --get-regexp ^alias\\.
-  sob = "!_() { git branch --remotes | grep -vi head | while read i; do git --no-pager log -n1 --pretty=format:\"%Cgreen%ci%Creset %Cred%H%Creset %C(yellow)%d%Creset  %an %s%n\" $i ;  done  | sort -n; }; _"
-  sobr = "!_() { git branch --remotes | grep -vi head | while read i; do git --no-pager log -n1 --pretty=format:\"%Cgreen%ci%Creset %Cred%H%Creset %C(yellow)%d%Creset  %an %s%n\" $i ;  done  | sort -nr; }; _"
+  sob = "!_() { git branch --remotes | grep -vi head | while read i; do git --no-pager log -n1 --pretty=format:\"%Cgreen%cI%Creset %Cred%H%Creset %C(yellow)%d%Creset  %an %s%n\" $i ;  done  | sort -n; }; _"
+  sobr = "!_() { git branch --remotes | grep -vi head | while read i; do git --no-pager log -n1 --pretty=format:\"%Cgreen%cI%Creset %Cred%H%Creset %C(yellow)%d%Creset  %an %s%n\" $i ;  done  | sort -nr; }; _"
   st = stash
   stop = stash pop
   slap = stash apply
