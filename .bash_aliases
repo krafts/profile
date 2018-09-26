@@ -27,4 +27,4 @@ alias bhs="~/workspace/profile/bash_history_search.sh"
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -n"
 
 # docker
-alias docker_clean="docker container prune -f && docker image prune -a -f"
+alias docker_clean="docker container prune -f && docker image prune -f"
