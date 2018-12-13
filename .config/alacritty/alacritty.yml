@@ -314,6 +314,8 @@ shell:
   program: /bin/bash
   args:
     - --login
+    - -c
+    - "tmux new-session -A -s main"
 
 # Key bindings
 #
