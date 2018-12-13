@@ -28,3 +28,6 @@ alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -n"
 
 # docker
 alias docker_clean="docker container prune -f && docker image prune -f"
+
+# public ip address
+alias wanip='dig @resolver1.opendns.com ANY myip.opendns.com +short'
