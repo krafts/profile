@@ -36,13 +36,22 @@ done
 
 # dedup path at the end
 ## thanks to http://unix.stackexchange.com/questions/14895/duplicate-entries-in-path-a-problem
-export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g')
+## export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g')
 
 . ~/.virtualenv-profile.sh
+
+### make sure this is after path dedup
+export PATH="$HOME/.pyenv/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
+
 
 ## tmux init
 #. ~/.tmux.sh
 export TMUX_TMPDIR=$HOME
+
 
 ## essentials 2
 PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(timestamp) \u@\h:\w" " \${?##0}\$(~/scripts/get_virtualenv_name.sh) \\\$ "'
@@ -51,3 +60,9 @@ GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM="verbose"
 GIT_PS1_SHOWCOLORHINTS=true
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/local/google-cloud-sdk/path.bash.inc" ]; then source "$HOME/local/google-cloud-sdk/path.bash.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/local/google-cloud-sdk/completion.bash.inc" ]; then source "$HOME/local/google-cloud-sdk/completion.bash.inc"; fi
