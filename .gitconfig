@@ -55,7 +55,7 @@
   fs = "!_() { git co develop && git pl && git flow feature start \"$@\" && git fp; }; _"
   fp = "!git flow feature publish $(git rev-parse --abbrev-ref HEAD | sed 's/feature\\///g')"
   fr = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && if echo $b | grep -vq -e ^feature 2>&1>/dev/null; then echo \"$b is not a feature, cannot proceed\"; exit 1; fi && git co develop && git pl && git co $b && git flow feature rebase && git psf; }; _"
-  poo = "!_() { branch=\"$@\"; if [ $(git bra | grep  \"remotes/origin/$branch\" | wc -l) -le 0 ]; then echo "$branch does not exist on origin"; exit 0; fi; printf \"DELETE $branch on origin! [y/N]: \"; read answer; if echo "$answer" | grep -iq "^y"; then git push origin :$branch; fi; }; _"
+  poo = "!_() { branch=\"$@\"; if [ $(git bra | grep  \"remotes/origin/$branch\" | wc -l) -le 0 ]; then echo \"$branch does not exist on origin\"; exit 0; fi; printf \"DELETE $branch on origin! [y/N]: \"; read answer; if echo \"$answer\" | grep -iq \"^y\"; then git push origin :$branch; fi; }; _"
   dodo = "!git poo $(git rev-parse --abbrev-ref HEAD)"
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cI %cr) %C(bold blue)<%an>%Creset'
   lgr = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
