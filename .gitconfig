@@ -85,7 +85,7 @@
   crh = diff master -U30
   ff = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git fr && git flow feature finish $(echo $b | sed 's/feature\\///g') && git ps && git poo $b && git dlb $b; }; _"
   punt = "!_() { git remote prune origin && git branch -vv | grep ': gone] ' | awk '{print $1}' | xargs git branch -D; }; _"
-  dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && git b -D \"$branch\"; }; _"
+  dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && printf \"DELETE local branch $branch [y/N]: \"; read answer; if echo \"$answer\" | grep -iq \"^y\"; then git b -D \"$branch\"; fi; }; _"
   psf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" == \"develop\" ]; then echo \"cannot force push develop\"; exit 1; elif [ \"$branch\" == \"master\" ]; then echo \"cannot force push master\"; exit 1; else git ps --force; fi; }; _"
   account = "!_() { git remote -v | awk -F':' '{print $2}' | awk '{print $1}' | awk -F'/' '{print $1}' | sort | uniq | head -1; }; _"
   repo = "!_() { git remote -v | awk -F':' '{print $2}' | awk '{print $1}' | awk -F'/' '{print $2}' | awk -F'.' '{print $1}' | sort | uniq | head -1; }; _"
