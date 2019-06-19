@@ -2,7 +2,7 @@
   editor = vim #atom --wait
   excludesfile = ~/.gitignore_global
   mergeoptions = --no-edit
-  whitespace = trailing-space,blank-at-eof,space-before-tab,indent-with-non-tab,-tab-in-indent,-cr-at-eol
+  whitespace = trailing-space,blank-at-eof,space-before-tab,-indent-with-non-tab,tab-in-indent,-cr-at-eol
 #  pager = diff-so-fancy | less --tabs=4 -RFX
 [push]
   default = simple
