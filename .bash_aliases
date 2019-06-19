@@ -31,3 +31,6 @@ alias docker_clean="docker container prune -f && docker image prune -f"
 
 # public ip address
 alias wanip='dig @resolver1.opendns.com ANY myip.opendns.com +short'
+
+# kill dns cache
+alias kill_dns="sudo killall -HUP mDNSResponder"
