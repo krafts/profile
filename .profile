@@ -54,7 +54,7 @@ export TMUX_TMPDIR=$HOME
 
 
 ## essentials 2
-PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(timestamp) \u@\h:\w" " \${?##0}\$(~/scripts/get_virtualenv_name.sh) \$(~/scripts/get_kubectl_context_ps1.sh) \\\$ "'
+PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(date +"%m-%dT%H:%M:%S") \w" " \${?##0}\$(~/scripts/get_virtualenv_name.sh)\$(~/scripts/get_kubectl_context_ps1.sh)\$ "'
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
