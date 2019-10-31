@@ -67,4 +67,6 @@ if [ -f "$HOME/local/google-cloud-sdk/path.bash.inc" ]; then source "$HOME/local
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/local/google-cloud-sdk/completion.bash.inc" ]; then source "$HOME/local/google-cloud-sdk/completion.bash.inc"; fi
 
-export PATH="$HOME/.poetry/bin:$PATH"
+## go setup
+export GOPATH=$HOME/workspace/go
+export PATH="$GOPATH/bin:$PATH"
