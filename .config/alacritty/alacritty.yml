@@ -378,7 +378,7 @@ shell:
   args:
     - --login
     - -c
-    - "tmux new-session -A -s main"
+    - "tmux -2 new-session -A -s main"
 
 # Windows 10 ConPTY backend (Windows only)
 #
