@@ -29,3 +29,6 @@ map <silent> <leader>4 :diffget 4<CR> :diffupdate<CR>
 
 set incsearch
 set hlsearch
+
+""set highlight color for spell checks failures.
+hi SpellBad ctermfg=black ctermbg=red
