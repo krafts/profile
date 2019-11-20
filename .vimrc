@@ -32,3 +32,7 @@ set hlsearch
 
 ""set highlight color for spell checks failures.
 hi SpellBad ctermfg=black ctermbg=red
+hi SpellCap ctermfg=black
+hi SpellRare ctermfg=black
+hi SpellLocal ctermfg=black
+hi Error ctermfg=53 ctermbg=red "guifg=#5F0087
