@@ -31,8 +31,8 @@ set incsearch
 set hlsearch
 
 ""set highlight color for spell checks failures.
-hi SpellBad ctermfg=black ctermbg=red
+hi SpellBad ctermfg=53 ctermbg=red "guifg=#5F0087
 hi SpellCap ctermfg=black
 hi SpellRare ctermfg=black
 hi SpellLocal ctermfg=black
-hi Error ctermfg=53 ctermbg=red "guifg=#5F0087
+hi Error ctermfg=black ctermbg=red
