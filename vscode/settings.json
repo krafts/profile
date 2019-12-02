@@ -36,5 +36,17 @@
     "gitlens.codeLens.scopes": [
         "containers"
     ],
-    "daml.telemetry": "Disable"
+    "daml.telemetry": "Disable",
+    /*  disable editor actions
+    *   https://github.com/Microsoft/vscode/issues/46403
+    */
+    // "gitlens.menus": {
+    //     "editorGroup": {
+    //         "blame": false,
+    //         "compare": false
+    //     },
+    // },
+    "customizeUI.stylesheet": {
+        ".editor-actions": "display: none !important;",
+    }
 }
