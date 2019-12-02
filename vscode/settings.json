@@ -2,7 +2,6 @@
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
     "editor.fontFamily": "Monaco",
-    "workbench.statusBar.feedback.visible": false,
     "editor.minimap.enabled": false,
     "editor.renderWhitespace": "all",
     "editor.renderControlCharacters": true,
