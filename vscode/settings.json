@@ -29,4 +29,12 @@
     "editor.fontSize": 14,
     "debug.console.fontSize": 14,
     "terminal.integrated.fontSize": 14,
+    "gitlens.advanced.abbreviatedShaLength": 8,
+    "gitlens.advanced.telemetry.enabled": false,
+    "gitlens.blame.dateFormat": "YYYY-MM-DDTHH:mm:ssZ",
+    "gitlens.currentLine.dateFormat": "YYYY-MM-DDTHH:mm:ssZ",
+    "gitlens.codeLens.scopes": [
+        "containers"
+    ],
+    "daml.telemetry": "Disable"
 }
