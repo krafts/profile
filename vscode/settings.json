@@ -48,5 +48,6 @@
     // },
     "customizeUI.stylesheet": {
         ".editor-actions": "display: none !important;",
-    }
+    },
+    "workbench.startupEditor": "none"
 }
