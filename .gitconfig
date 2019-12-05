@@ -119,6 +119,9 @@
   #aft = "!_() { branch=$(git brn) && if [ \"$branch\" == \"master\" ]; then echo \"cannot merge master into master\"; exit 1; fi && git rb && git co master && pr_number=$(curl -H \\\"Authorization: token $(cat ~/.github_git_alias_auth_token)\\\" -H \\\"Content-Type: application/json\\\" https://api.github.com/repos/$(git account)/$(git repo)/pulls; | jq '.[]| {(.head.ref): .number}' | grep \"$branch\" | awk '{print $2}') && echo $pr_number; }; _"
   brr = "!_() { branch=$(git brn) && if [ \"$branch\" == \"master\" ]; then echo \"cannot change the name of branch master\"; exit 1; fi && if [ \"$branch\" == \"$1\" ]; then echo \"branch is already named $1\"; exit 1; fi && printf \"Change branch name from $branch to $1 [y/N]: \"; read answer; if echo \"$answer\" | grep -iq \"^y\"; then git b --unset-upstream && git b -m \"$branch\" \"$1\" && git push --set-upstream origin \"$1\" && git poo \"$branch\"; fi; }; _"
   ap = -c interactive.diffFilter=\"diff-highlight\" add -p
+  nr = name-rev ## find a commit belongs to which branch
+  findcommit = name-rev ## find a commit belongs to which branch
+  fc = name-rev ## find a commit belongs to which branch
 
 ## chlogm =  !sh -c 'git log $1...$2  --pretty=format:\"%s [view commit](http://github.com/$3/$4/commit/%H) \"' ## https://coderwall.com/p/5cv5lg/generate-your-changelogs-with-git-log, top comment by bainternet
 
