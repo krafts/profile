@@ -55,5 +55,5 @@
     "workbench.editor.tabCloseButton": "off",
     "customizeUI.font.monospace": "FiraCode-Retina",
     "customizeUI.font.regular": "FiraCode-Retina",
-    "workbench.activityBar.visible": false,
+    "workbench.activityBar.visible": false
 }
