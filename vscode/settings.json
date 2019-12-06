@@ -1,7 +1,10 @@
 {
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
-    "editor.fontFamily": "Monaco",
+    "editor.fontFamily": "FiraCode-Retina",
+    //"editor.fontWeight": "400",
+    "editor.fontLigatures": true,
+    "editor.lineHeight": 21,
     "editor.minimap.enabled": false,
     "editor.renderWhitespace": "all",
     "editor.renderControlCharacters": true,
@@ -17,11 +20,10 @@
     "files.trimTrailingWhitespace": true,
     "editor.autoClosingBrackets": "never",
     "editor.autoClosingOvertype": "never",
-    "debug.console.fontFamily": "Monaco",
+    "debug.console.fontFamily": "FiraCode-Retina",
     "python.jediEnabled": false,
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
-    "workbench.activityBar.visible": true,
     "editor.autoSurround": "never",
     "window.zoomLevel": 1,
     "explorer.openEditors.visible": 0,
@@ -49,5 +51,9 @@
     "customizeUI.stylesheet": {
         ".editor-actions": "display: none !important;",
     },
-    "workbench.startupEditor": "none"
+    "workbench.startupEditor": "none",
+    "workbench.editor.tabCloseButton": "off",
+    "customizeUI.font.monospace": "FiraCode-Retina",
+    "customizeUI.font.regular": "FiraCode-Retina",
+    "workbench.activityBar.visible": false,
 }
