@@ -38,6 +38,8 @@
     "gitlens.codeLens.scopes": [
         "containers"
     ],
+    "gitlens.hovers.annotations.over": "annotation",
+    "gitlens.hovers.enabled": false,
     "daml.telemetry": "Disable",
     /*  disable editor actions
     *   https://github.com/Microsoft/vscode/issues/46403
