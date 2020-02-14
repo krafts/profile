@@ -60,5 +60,7 @@
     "workbench.activityBar.visible": false,
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
-    }
+    },
+    "problems.showCurrentInStatus": true,
+    "workbench.activityBar.visible": false
 }
