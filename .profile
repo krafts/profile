@@ -55,7 +55,11 @@ export TMUX_TMPDIR=$HOME
 
 
 ## essentials 2
-PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(date +"%m-%dT%H:%M:%S") \w" " \${?##0}\$(~/scripts/get_virtualenv_name.sh)\$(~/scripts/get_kubectl_context_ps1.sh)\$ "'
+##PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(date +"%m-%dT%H:%M:%S") \w" " \${?##0}\$(~/scripts/get_virtualenv_name.sh)\$(~/scripts/get_kubectl_context_ps1.sh)\$ "'
+##PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; PS1="\D{%m-%dT%H:%M:%S} \w $(~/scripts/get_kubectl_context_ps1.sh) $ "'
+##PROMPT_COMMAND="history -a; history -c; history -r; ~/.bash_history_rotater.sh;" ## PS1=''; __git_ps1"
+##PS1="\D{%m-%dT%H:%M:%S} \w $(~/scripts/get_virtualenv_name.sh)$(~/scripts/get_kubectl_context_ps1.sh) $ "
+PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(date +"%m-%dT%H:%M:%S") \w" " \$(~/scripts/get_virtualenv_name.sh)\$(~/scripts/get_kubectl_context_ps1.sh) \$ "'
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
@@ -71,3 +75,6 @@ if [ -f "$HOME/local/google-cloud-sdk/completion.bash.inc" ]; then source "$HOME
 ## go setup
 export GOPATH=$HOME/workspace/go
 export PATH="$GOPATH/bin:$PATH"
+
+## poetry
+export PATH="$HOME/.poetry/bin:$PATH"
