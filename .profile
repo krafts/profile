@@ -1,6 +1,6 @@
 ## essentials
 #export PS1="\$(timestamp) \u@\h:\w \${?##0} $ "
-export PATH="$HOME/local/java/11/bin:$HOME/Library/Python/2.7/bin:/usr/local/go/bin:$HOME/.daml/bin:$HOME/.poetry/bin:$HOME/local/make/bin:/opt/local/bin:/opt/local/sbin:$HOME/scripts:/usr/local/bin:$HOME/local/ripgrep:$HOME/local/coreutils/bin:$PATH:/sbin"
+export PATH="$HOME/local/git/bin:$HOME/local/java/11/bin:$HOME/Library/Python/2.7/bin:/usr/local/go/bin:$HOME/.daml/bin:$HOME/.poetry/bin:$HOME/local/make/bin:/opt/local/bin:/opt/local/sbin:$HOME/scripts:/usr/local/bin:$HOME/local/ripgrep:$HOME/local/coreutils/bin:$PATH:/sbin"
 export MANPATH=/opt/local/share/man:$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
