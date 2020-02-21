@@ -1,11 +1,29 @@
+## setting prompt
+prompt_command() {
+    local EXIT_CODE="$?"
+    history -a
+    history -c
+    history -r
+    $HOME/.bash_history_rotater.sh
+
+    PS1="\D{%m-%dT%H:%M:%S} \w$(~/scripts/get_kubectl_context_ps1.sh) "
+
+    if [ $EXIT_CODE != 0 ]; then
+        PS1+="($EXIT_CODE) "
+    fi
+
+    PS1+="$ "
+}
+PROMPT_COMMAND=prompt_command
+
 ## essentials
-#export PS1="\$(timestamp) \u@\h:\w \${?##0} $ "
 export PATH="$HOME/local/git/bin:$HOME/local/java/11/bin:$HOME/Library/Python/2.7/bin:/usr/local/go/bin:$HOME/.daml/bin:$HOME/.poetry/bin:$HOME/local/make/bin:/opt/local/bin:/opt/local/sbin:$HOME/scripts:/usr/local/bin:$HOME/local/ripgrep:$HOME/local/coreutils/bin:$PATH:/sbin"
 export MANPATH=/opt/local/share/man:$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 umask 0022
+
 
 ## editor
 export EDITOR=vim
@@ -52,19 +70,6 @@ fi
 ## tmux init
 #. ~/.tmux.sh
 export TMUX_TMPDIR=$HOME
-
-
-## essentials 2
-##PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(date +"%m-%dT%H:%M:%S") \w" " \${?##0}\$(~/scripts/get_virtualenv_name.sh)\$(~/scripts/get_kubectl_context_ps1.sh)\$ "'
-##PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; PS1="\D{%m-%dT%H:%M:%S} \w $(~/scripts/get_kubectl_context_ps1.sh) $ "'
-##PROMPT_COMMAND="history -a; history -c; history -r; ~/.bash_history_rotater.sh;" ## PS1=''; __git_ps1"
-##PS1="\D{%m-%dT%H:%M:%S} \w $(~/scripts/get_virtualenv_name.sh)$(~/scripts/get_kubectl_context_ps1.sh) $ "
-PROMPT_COMMAND='history -a; history -c; history -r; ~/.bash_history_rotater.sh; __git_ps1 "\$(date +"%m-%dT%H:%M:%S") \w" " \$(~/scripts/get_virtualenv_name.sh)\$(~/scripts/get_kubectl_context_ps1.sh) \$ "'
-GIT_PS1_SHOWDIRTYSTATE=true
-GIT_PS1_SHOWSTASHSTATE=true
-GIT_PS1_SHOWUNTRACKEDFILES=true
-GIT_PS1_SHOWUPSTREAM="verbose"
-GIT_PS1_SHOWCOLORHINTS=true
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/local/google-cloud-sdk/path.bash.inc" ]; then source "$HOME/local/google-cloud-sdk/path.bash.inc"; fi
