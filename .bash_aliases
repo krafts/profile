@@ -34,3 +34,7 @@ alias wanip='dig @resolver1.opendns.com ANY myip.opendns.com +short'
 
 # kill dns cache
 alias kill_dns="sudo killall -HUP mDNSResponder"
+
+# git, most of them setup in git aliases specified in git config
+alias gs="git status --short --branch"
+alias sg="gs"
