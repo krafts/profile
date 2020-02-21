@@ -57,8 +57,6 @@ done
 ## thanks to http://unix.stackexchange.com/questions/14895/duplicate-entries-in-path-a-problem
 ## export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g')
 
-. ~/.virtualenv-profile.sh
-
 ### make sure this is after path dedup
 export PATH="$HOME/.pyenv/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
