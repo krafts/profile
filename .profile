@@ -1,24 +1,4 @@
-# ## setting prompt
-# prompt_command() {
-#     local EXIT_CODE="$?"
-#     history -a
-#     history -c
-#     history -r
-#     $HOME/.bash_history_rotater.sh
-
-#     PS1="\D{%m-%dT%H:%M:%S} \w$(~/scripts/get_kubectl_context_ps1.sh) "
-
-#     if [ $EXIT_CODE != 0 ]; then
-#         PS1+="($EXIT_CODE) "
-#     fi
-
-#     PS1+="$ "
-# }
-# PROMPT_COMMAND=prompt_command
-
-
-
-
+## setting prompt
 function _update_ps1() {
   local __ERRCODE=$?
 
@@ -26,19 +6,9 @@ function _update_ps1() {
   history -c
   history -r
   $HOME/.bash_history_rotater.sh
-  ##export k8s_cluster_name_powerline=$(~/scripts/get_kubectl_context_ps1.sh)
-  ##PS1="$($GOPATH/bin/powerline-go -modules duration -error $__ERRCODE )"
-  ##"venv,user,host,ssh,cwd,perms,git,hg,jobs,exit,root"
-  ##PS1="\D{%m-%d}T$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -numeric-exit-codes -shell-var k8s_cluster_name_powerline -modules time,cwd,git,venv,shell-var,exit,root)"
   PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -modules time,cwd,git,venv,kube,exit,root)"
 }
 
-# PROMPT_COMMAND="__git_ps1"
-# GIT_PS1_SHOWDIRTYSTATE=true
-# GIT_PS1_SHOWSTASHSTATE=true
-# GIT_PS1_SHOWUNTRACKEDFILES=true
-# GIT_PS1_SHOWUPSTREAM="verbose"
-# GIT_PS1_SHOWCOLORHINTS=true
 if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
