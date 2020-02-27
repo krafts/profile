@@ -62,5 +62,6 @@
         "editor.defaultFormatter": "vscode.json-language-features"
     },
     "problems.showCurrentInStatus": true,
-    "workbench.activityBar.visible": false
+    "workbench.activityBar.visible": false,
+    "workbench.tree.indent": 16
 }
