@@ -64,7 +64,7 @@
     },
     "problems.showCurrentInStatus": true,
     "workbench.activityBar.visible": false,
-    "workbench.tree.indent": 16,
+    "workbench.tree.indent": 21,
     "editor.selectionHighlight": false,
     "editor.occurrencesHighlight": false
 }
