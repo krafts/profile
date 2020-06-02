@@ -1,4 +1,4 @@
-set clipboard=unnamed
+""set clipboard=unnamed
 
 set nocompatible
 set backspace=indent,eol,start
