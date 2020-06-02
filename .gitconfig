@@ -86,7 +86,8 @@
   sob = "!_() { git branch --remotes | grep -vi head | while read i; do git --no-pager log -n1 --pretty=format:'%Cgreen%cI%Creset %Cred%H%Creset %C(yellow)%d%Creset  %an %s%n' $i ; done | sort -n; }; _"
   sobr = "!_() { git branch --remotes | grep -vi head | while read i; do git --no-pager log -n1 --pretty=format:'%Cgreen%cI%Creset %Cred%H%Creset %C(yellow)%d%Creset  %an %s%n' $i ; done | sort -nr; }; _"
   st = stash
-  stop = stash pop
+  sti = stash --include-untracked
+  ##stop = stash pop
   slap = stash apply
   still = stash list
   info = remote -v
