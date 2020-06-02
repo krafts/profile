@@ -10,7 +10,7 @@
     "editor.renderControlCharacters": true,
     "editor.rulers": [
         80,
-        100
+        { "column": 100, "color": "#5c4a02" }
     ],
     "breadcrumbs.enabled": false,
     "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
@@ -65,6 +65,7 @@
     "problems.showCurrentInStatus": true,
     "workbench.activityBar.visible": false,
     "workbench.tree.indent": 21,
-    "editor.selectionHighlight": false,
-    "editor.occurrencesHighlight": false
+    "editor.renderLineHighlight": "all",
+    "go.formatTool": "goimports",
+    "go.useLanguageServer": true
 }
