@@ -2,9 +2,7 @@
 function _update_ps1() {
   local __ERRCODE=$?
 
-  ## https://unix.stackexchange.com/a/18443
-  history -n
-  history -w
+  history -a
   history -c
   history -r
   $HOME/.bash_history_rotater.sh
