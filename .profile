@@ -6,7 +6,7 @@ function _update_ps1() {
   history -c
   history -r
   $HOME/.bash_history_rotater.sh
-  PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -modules time,cwd,git,venv,kube,exit,root)"
+  PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules time,cwd,git,venv,kube,exit)"
 }
 
 if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
@@ -14,7 +14,7 @@ if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
 fi
 
 ## essentials
-export PATH="$HOME/local/git/bin:$HOME/local/java/11/bin:$HOME/Library/Python/2.7/bin:/usr/local/go/bin:$HOME/.daml/bin:$HOME/.poetry/bin:$HOME/local/make/bin:/opt/local/bin:/opt/local/sbin:$HOME/scripts:/usr/local/bin:$HOME/local/ripgrep:$HOME/local/coreutils/bin:$PATH:/sbin"
+export PATH="$HOME/local/diffutils/bin:$HOME/local/gnu-sed/bin:$HOME/local/findutils/bin:$HOME/local/scala/bin:$HOME/local/git/bin:$HOME/local/java/11/bin:/usr/local/go/bin:$HOME/.daml/bin:$HOME/.poetry/bin:$HOME/local/make/bin:$HOME/local/node/bin:/opt/local/bin:/opt/local/sbin:$HOME/scripts:/usr/local/bin:$HOME/local/ripgrep:$HOME/local/coreutils/bin:$PATH:/sbin"
 export MANPATH=/opt/local/share/man:$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -59,7 +59,7 @@ export PATH="$HOME/.pyenv/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
-  export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+#  export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
 fi
 
 
@@ -67,11 +67,8 @@ fi
 #. ~/.tmux.sh
 export TMUX_TMPDIR=$HOME
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/local/google-cloud-sdk/path.bash.inc" ]; then source "$HOME/local/google-cloud-sdk/path.bash.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/local/google-cloud-sdk/completion.bash.inc" ]; then source "$HOME/local/google-cloud-sdk/completion.bash.inc"; fi
+# glcoud python3 hack
+#export CLOUDSDK_PYTHON="$HOME/.pyenv/versions/3.7.6/bin/python"
 
 ## go setup
 export GOPATH=$HOME/workspace/go
@@ -79,3 +76,9 @@ export PATH="$GOPATH/bin:$PATH"
 
 ## poetry
 export PATH="$HOME/.poetry/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/local/google-cloud-sdk/path.bash.inc" ]; then . "$HOME/local/google-cloud-sdk/path.bash.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/local/google-cloud-sdk/completion.bash.inc" ]; then . "$HOME/local/google-cloud-sdk/completion.bash.inc"; fi
