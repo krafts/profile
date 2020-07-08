@@ -6,7 +6,7 @@ function _update_ps1() {
   history -c
   history -r
   $HOME/.bash_history_rotater.sh
-  PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules time,cwd,git,venv,kube,exit)"
+  PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules kube,git,cwd,venv,time,exit)"
 }
 
 if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
