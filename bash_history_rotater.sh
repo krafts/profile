@@ -28,7 +28,7 @@ if [ -s "$BASH_HIST" -a "$BASH_HIST" -nt "$BACKUP" ]; then
     chmod 0400 $BACKUP
     umask 0177 # create files as 0600
     tail -n$KEEP $BACKUP > $BASH_HIST
-    echo "#$(date +%s)" > $BASH_HIST
+    echo "#$(date +%s)" >> $BASH_HIST
     echo "ls" >> $BASH_HIST
     history -r
   fi
