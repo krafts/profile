@@ -14,7 +14,7 @@ if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
 fi
 
 ## essentials
-export PATH="$HOME/local/nmap/bin:$HOME/local/jdk-11.0.2.jdk/Contents/Home/bin:$HOME/local/diffutils/bin:$HOME/local/gnu-sed/bin:$HOME/local/findutils/bin:$HOME/local/scala/bin:$HOME/local/git/bin:$HOME/local/java/11/bin:/usr/local/go/bin:$HOME/.daml/bin:$HOME/.poetry/bin:$HOME/local/make/bin:$HOME/local/node/bin:/opt/local/bin:/opt/local/sbin:$HOME/scripts:/usr/local/bin:$HOME/local/ripgrep:$HOME/.cargo/bin:$HOME/local/coreutils/bin:$PATH:/sbin"
+export PATH="$HOME/local/tar/bin:$HOME/local/yabai/bin:$HOME/local/nmap/bin:$HOME/local/jdk-11.0.2.jdk/Contents/Home/bin:$HOME/local/diffutils/bin:$HOME/local/gnu-sed/bin:$HOME/local/findutils/bin:$HOME/local/scala/bin:$HOME/local/git/bin:$HOME/local/java/11/bin:/usr/local/go/bin:$HOME/.daml/bin:$HOME/.poetry/bin:$HOME/local/make/bin:$HOME/local/node/bin:/opt/local/bin:/opt/local/sbin:$HOME/scripts:/usr/local/bin:$HOME/local/ripgrep:$HOME/.cargo/bin:$HOME/local/coreutils/bin:$PATH:/sbin"
 export MANPATH=/opt/local/share/man:$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
