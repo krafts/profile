@@ -21,7 +21,7 @@ alias caly="gcal $(date +'%Y')"
 alias cls="clear; printf '\033[3J'"
 
 # bash history searcher
-alias bhs="~/workspace/profile/bash_history_search.sh"
+alias bhs="~/krafts/profile/bash_history_search.sh"
 
 # sublime text
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -n"
@@ -38,3 +38,7 @@ alias kill_dns="sudo killall -HUP mDNSResponder"
 # git, most of them setup in git aliases specified in git config
 alias gs="git status --short --branch"
 alias sg="gs"
+
+
+# java
+alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11); java -version"
