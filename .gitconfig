@@ -143,3 +143,5 @@
 
 [filter "trimWhitespace"]
   clean = git-stripspace
+[credential]
+	helper = osxkeychain
