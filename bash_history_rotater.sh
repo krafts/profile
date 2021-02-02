@@ -14,7 +14,7 @@
 
 KEEP=100
 BASH_HIST=~/.bash_history
-BACKUP=$BASH_HIST.$(date +%Y-%m-%d)
+BACKUP=$BASH_HIST.$(date +%Y-%m)
 
 if [ -s "$BASH_HIST" -a "$BASH_HIST" -nt "$BACKUP" ]; then
   # history file is newer then backup
