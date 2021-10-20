@@ -39,6 +39,12 @@ alias kill_dns="sudo killall -HUP mDNSResponder"
 alias gs="git status --short --branch"
 alias sg="gs"
 
-
 # java
 alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11); java -version"
+
+# timezone
+alias tz="TZ_LIST=America/Los_Angeles,Australia/Sydney,UTC tz"
+
+# kubernetes
+alias kl="kubectl"
+alias kx="kubectx"
