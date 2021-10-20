@@ -79,6 +79,10 @@ export PATH="$HOME/.poetry/bin:$PATH"
 ## maven
 export M2_HOME=$HOME/apache-maven
 
+## ansible
+### https://github.com/ansible/ansible/issues/32499
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/local/google-cloud-sdk/path.bash.inc" ]; then . "$HOME/local/google-cloud-sdk/path.bash.inc"; fi
 
