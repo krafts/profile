@@ -125,6 +125,9 @@
   findcommit = name-rev ## find a commit belongs to which branch
   fc = name-rev ## find a commit belongs to which branch
   sq = "!_() { git reset --soft \"$1\" && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; }; _"
+  psu = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); git push --set-upstream origin \"$branch\"; }; _"
+  db = "!_() { git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'; }; _"
+  nf = "!_() { git checkout main && git pull && git punt && git checkout -b \"$1\" || git checkout \"$1\" && git push --set-upstream origin \"$1\"; }; _"
 
 ## chlogm =  !sh -c 'git log $1...$2  --pretty=format:\"%s [view commit](http://github.com/$3/$4/commit/%H) \"' ## https://coderwall.com/p/5cv5lg/generate-your-changelogs-with-git-log, top comment by bainternet
 
