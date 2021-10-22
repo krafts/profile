@@ -10,7 +10,7 @@ function _update_ps1() {
 }
 
 if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+  PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
 
 ## essentials
@@ -35,11 +35,11 @@ ssh-add ~/.ssh/id_rsa
 ## external imports
 for f in ~/.bash_aliases ~/.ansible.conf ~/.rackspace_project_creds ~/.git-prompt.sh ~/.bashrc_da ~/.cargo/env ~/.aws-azure-login ~/.gitlab_token ~/.gfn.sh ~/.vault_aliases.sh #~/.google-cloud-sdk
 do
-    if [ ! -f "$f" ]; then
-        continue
-    fi
+  if [ ! -f "$f" ]; then
+    continue
+  fi
 
-    . "$f"
+  . "$f"
 done
 
 
