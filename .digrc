@@ -2,3 +2,6 @@
 +nostats +nocomments +nocmd +noquestion +recurse
 # can also do from the following https://jvns.ca/blog/2021/12/04/how-to-use-dig/
 # +noall +answer
+
+# extras
++nottlid
