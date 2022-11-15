@@ -110,7 +110,7 @@ font:
     #   - (Windows) Consolas
     #family: monospace
   normal:
-    family: Fira Code Retina
+    family: FiraCode Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
@@ -126,7 +126,7 @@ font:
     # The `style` can be specified to pick a specific face.
     #style: Bold
   bold:
-    family: Fira Code Retina
+    family: FiraCode Nerd Font Mono
 
   # Italic font face
   #italic:
@@ -150,7 +150,7 @@ font:
     # The `style` can be specified to pick a specific face.
     #style: Bold Italic
   italic:
-    family: Fira Code Retina
+    family: FiraCode Nerd Font Mono
 
   # Point size
   size: 15.0
