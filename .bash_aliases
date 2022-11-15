@@ -48,3 +48,6 @@ alias tz="TZ_LIST=America/Los_Angeles,Australia/Sydney,UTC tz"
 # kubernetes
 alias kl="kubectl"
 alias kx="kubectx"
+
+# vs code
+alias code="code -n"
