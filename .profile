@@ -6,12 +6,23 @@ function _update_ps1() {
   history -c
   history -r
   $HOME/.bash_history_rotater.sh
-  PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
+  #PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
+  $HOME/.config/starship/starship_setup_conf.sh
 }
 
-if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
-  PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
+# if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
+#   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+# fi
+
+# if [ "$TERM" != "linux" ]; then
+#   PROMPT_COMMAND="_pyenv_virtualenv_hook; starship_precmd"
+# fi
+
+PROMPT_COMMAND="_update_ps1; _pyenv_virtualenv_hook;"
+
+# starship
+export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
+eval "$(starship init bash)"
 
 ## essentials
 export PATH="$HOME/local/coreutils/bin:$HOME/local/apache-maven/bin:$HOME/.npm-global/bin:$HOME/local/bash/bin:$HOME/local/tmux/bin:$HOME/local/pkg-config/bin:$HOME/local/automake/bin:$HOME/local/autoconf/bin:$HOME/local/tar/bin:$HOME/local/yabai/bin:$HOME/local/nmap/bin:$HOME/local/jdk-11.0.2.jdk/Contents/Home/bin:$HOME/local/diffutils/bin:$HOME/local/gnu-sed/bin:$HOME/local/findutils/bin:$HOME/local/scala/bin:$HOME/local/git/bin:$HOME/local/java/11/bin:/usr/local/go/bin:$HOME/.daml/bin:$HOME/.poetry/bin:$HOME/local/make/bin:$HOME/local/node/bin:/opt/local/bin:/opt/local/sbin:$HOME/scripts:/usr/local/bin:$HOME/local/ripgrep:$HOME/.cargo/bin:$HOME/local/coreutils/bin:$PATH:/sbin"
