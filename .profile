@@ -85,7 +85,7 @@ export GOPATH=$HOME/workspace/go
 export PATH="$GOPATH/bin:$PATH"
 
 ## poetry
-export PATH="$HOME/.poetry/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 ## maven
 export M2_HOME=$HOME/apache-maven
