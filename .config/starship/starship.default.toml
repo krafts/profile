@@ -1,0 +1,215 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+
+# Custom format because of time line break
+format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$singularity\
+$kubernetes\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$docker_context\
+$package\
+$c\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$haskell\
+$helm\
+$java\
+$julia\
+$kotlin\
+$lua\
+$nim\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$raku\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$swift\
+$terraform\
+$vlang\
+$vagrant\
+$zig\
+$buf\
+$nix_shell\
+$conda\
+$meson\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$env_var\
+$crystal\
+$custom\
+$sudo\
+$cmd_duration\
+$time\
+$line_break\
+$jobs\
+$battery\
+$status\
+$container\
+$shell\
+$character"""
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+[character]
+success_symbol = "[\\$](bold green)"
+error_symbol = "[x](bold red)"
+vimcmd_symbol = "[<](bold green)"
+#success_symbol = "[➜](bold green)"
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+[kubernetes]
+format = '[$context]($style) '
+disabled = false
+style = "dimmed green"
+
+[kubernetes.context_aliases]
+# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>[0-9]+?):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name"
+"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>333333333333):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD AWS TEAM A"
+"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>222222222222):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM A"
+"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>111111111111):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name SANDBOX AWS TEAM A"
+"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>555555555555):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD AWS TEAM B"
+"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>444444444444):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM B"
+"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>666666666666):cluster/(?P<aws_eks_cluster_name>production?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD TEAM C"
+"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>666666666666):cluster/(?P<aws_eks_cluster_name>qat?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM C"
+"(?P<cluster_name>cluster-a)" = "PROD->>!!! $cluster_name !!!<<-PROD Executors"
+"(?P<cluster_name>cluster-b)" = "PROD->>!!! $cluster_name !!!<<-PROD Executors"
+"(?P<cluster_name>dev-[\\w-]+?)[\\.].*" = "$cluster_name dev"
+"(?P<cluster_name>qat-[\\w-]+?)[\\.].*" = "$cluster_name QAT"
+"(?P<cluster_name>prod-[\\w-]+?)[\\.].*" = "PROD->>!!! $cluster_name !!!<<-PROD"
+# "dev.local.cluster.k8s" = "dev"
+# ".*/openshift-cluster/.*" = "openshift"
+# "gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"
+# [kubernetes.user_aliases]
+# "dev.local.cluster.k8s" = "dev"
+# "root/.*" = "root"
+
+[aws]
+# format = 'on [$symbol($profile )(\($region\) )]($style)'
+# style = "bold blue"
+# symbol = "🅰 "
+disabled = false
+format = 'on [$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
+style = "bold blue"
+symbol = "🅰 "
+
+[directory]
+truncate_to_repo = false
+truncation_length = 100
+truncation_symbol = "…/"
+format = "[$path]($style) "
+style = "bold cyan"
+home_symbol = "~"
+
+[git_branch]
+format ="[$symbol$branch(:$remote_branch)]($style) "
+symbol = " "
+style = "bold purple"
+always_show_remote = false
+
+[git_commit]
+commit_hash_length = 8
+format ='[\($hash$tag\)]($style) '
+style = "bold green"
+only_detached = true
+tag_symbol = " tag "
+#tag_symbol = " 🏷 "
+
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+style = "bold yellow"
+rebase = "REBASING"
+merge = "MERGING"
+revert = "REVERTING"
+cherry_pick = "CHERRY-PICKING"
+# cherry_pick = "[🍒 PICKING](bold red)"
+bisect = "BISECTING"
+am = "AM"
+am_or_rebase ="AM/REBASE"
+
+[git_metrics]
+format = "[+$added]($added_style)/[-$deleted]($deleted_style) "
+added_style = "bold green"
+#added_style = "bold blue"
+deleted_style = "bold red"
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+conflicted = "="
+ahead = "u+${count}"
+behind = "u-${count}"
+diverged = "u+${ahead_count}u-${behind_count}"
+up_to_date = ""
+untracked = "${count}??"
+stashed = ""
+modified = "${count}*"
+staged = "${count}+"
+renamed = "»"
+deleted = "✘"
+style = "bold red"
+ignore_submodules = false
+
+
+# conflicted = "🏳"
+# #ahead = "🏎💨"
+# #behind = "😰"
+# #diverged = "😵"
+# up_to_date = "" #"✓"
+# untracked = "🤷"
+# #stashed = "📦"
+# modified = "*" #"📝"
+# staged = '[++\($count\)](green)'
+# #renamed = "👅"
+# #deleted = "🗑"
+# #ahead = "⇡${count}"
+# #diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+# #behind = "⇣${count}"
+
+# ahead = ">"
+# behind = "<"
+# diverged = "<>"
+# renamed = "r"
+# deleted = "x"
+
+[time]
+disabled = false
+format = '[$time]($style) '
+time_format = "%dT%T"
+utc_time_offset = "local"
+style	= "fg:235" # https://i.stack.imgur.com/KTSQa.png and https://starship.rs/advanced-config/#style-strings
