@@ -133,7 +133,7 @@ truncate_to_repo = false
 truncation_length = 100
 truncation_symbol = "…/"
 format = "[$path]($style) "
-style = "bold cyan"
+style = "fg:243"
 home_symbol = "~"
 
 [git_branch]
