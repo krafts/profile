@@ -6,6 +6,13 @@ local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
 -- The filled in variant of the > symbol
 local SOLID_RIGHT_ARROW = utf8.char(0xe0b0)
 
+-- https://stackoverflow.com/a/2705804
+-- function tablelength(T)
+--   local count = 0
+--   for _ in pairs(T) do count = count + 1 end
+--   return count
+-- end
+
 -- https://github.com/wez/wezterm/issues/1598#issuecomment-1167851819
 -- Sets the title of the active tab in the current window.
 -- This method is intended to be called from the debug overlay repl
@@ -54,9 +61,11 @@ wezterm.on(
     local tab_title = tab.tab_title
     --local tab_id = tab.tab_id
     local tab_pos = tab.tab_index + 1
-    local panel_zoomed = ''
-    if tab.active_pane.is_zoomed then
-      panel_zoomed = 'Z'
+    local pane_zoomed = ''
+    --local pane_count = tablelength(panes)
+
+    if tab.active_pane.is_zoomed then --and pane_count > 1 then
+      pane_zoomed = 'Z'
     end
 
     return {
@@ -65,7 +74,7 @@ wezterm.on(
       { Text = SOLID_LEFT_ARROW },
       { Background = { Color = background } },
       { Foreground = { Color = foreground } },
-      { Text = '   '.. panel_zoomed .. ' '.. tab_pos .. ': ' .. tab_title .. '   '},
+      { Text = '   '.. pane_zoomed .. ' '.. tab_pos .. ': ' .. tab_title .. '   '},
       { Background = { Color = edge_background } },
       { Foreground = { Color = edge_foreground } },
       { Text = SOLID_RIGHT_ARROW },
