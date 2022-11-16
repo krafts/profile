@@ -131,16 +131,16 @@ return {
       '#75d4d5',
       '#fefefe',
     },
-    dims = {
-      '#333333',
-      '#f2777a',
-      '#99cc99',
-      '#ffcc66',
-      '#6699cc',
-      '#cc99cc',
-      '#66cccc',
-      '#dddddd',
-    },
+    -- dims = {
+    --   '#333333',
+    --   '#f2777a',
+    --   '#99cc99',
+    --   '#ffcc66',
+    --   '#6699cc',
+    --   '#cc99cc',
+    --   '#66cccc',
+    --   '#dddddd',
+    -- },
     -- Arbitrary colors of the palette in the range from 16 to 255
     indexed = { [136] = '#af8700' },
 
