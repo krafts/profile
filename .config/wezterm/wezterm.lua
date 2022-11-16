@@ -6,6 +6,25 @@ local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
 -- The filled in variant of the > symbol
 local SOLID_RIGHT_ARROW = utf8.char(0xe0b0)
 
+-- https://github.com/wez/wezterm/issues/1598#issuecomment-1167851819
+-- Sets the title of the active tab in the current window.
+-- This method is intended to be called from the debug overlay repl
+function tt(title)
+  -- The debug overlay defines a global `window` variable that is a Gui Window object; let's
+  -- access it via the special `_G` lua table that always references the global variables
+  local gui_window = _G.window
+  -- "Convert" the gui window into a mux window
+  local window = wezterm.mux.get_window(gui_window:window_id())
+  -- Locate the active tab
+  for _, tab_info in ipairs(window:tabs_with_info()) do
+    if tab_info.is_active then
+      -- Set the title and log something to indicate the changes that we made
+      tab_info.tab:set_title(title)
+      wezterm.log_info("Changed title for tab " .. tostring(tab_info.tab:tab_id()) .. " to " .. tab_info.tab:get_title())
+      break
+    end
+  end
+end
 
 wezterm.on(
   'format-tab-title',
@@ -29,7 +48,7 @@ wezterm.on(
 
     -- ensure that the titles fit in the available space,
     -- and that we have room for the edges.
-    local title = wezterm.truncate_right(tab.active_pane.title, max_width - 2)
+    local tab_title = tab.tab_title
     --local tab_id = tab.tab_id
     local tab_index = tab.tab_index
 
@@ -39,7 +58,7 @@ wezterm.on(
       { Text = SOLID_LEFT_ARROW },
       { Background = { Color = background } },
       { Foreground = { Color = foreground } },
-      { Text = "   ".. tab_index + 1 .. ": " .. title .. "   "},
+      { Text = "   ".. tab_index + 1 .. ": " .. tab_title .. "   "},
       { Background = { Color = edge_background } },
       { Foreground = { Color = edge_foreground } },
       { Text = SOLID_RIGHT_ARROW },
