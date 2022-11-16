@@ -33,11 +33,14 @@ wezterm.on(
     local background = '#1b1032'
     local foreground = '#808080'
 
+    -- preferred blue #211b85
+    -- purpleish #23126a
+    -- preferred purple #1e0c64
     if tab.is_active then
       background = '#edad13'
-      foreground = '#1353ed'
+      foreground = '#1e0c64'
     elseif not tab.is_active then
-      background = '#1353ed'
+      background = '#1e0c64'
       foreground = '#edad13'
     -- elseif hover then
     --   background = '#3b3052'
@@ -105,9 +108,9 @@ return {
     cursor_border = '#52ad70',
 
     -- the foreground color of selected text
-    selection_fg = 'black',
+    selection_fg = '#1e0c64',
     -- the background color of selected text
-    selection_bg = '#fffacd',
+    selection_bg = '#edad13',
 
     -- The color of the scrollbar "thumb"; the portion that represents the current viewport
     scrollbar_thumb = '#222222',
@@ -116,24 +119,24 @@ return {
     split = '#cccccc',
 
     ansi = {
-      '#000000',
-      '#ef565d',
-      '#4fd149',
-      '#ffd478',
-      '#77aad5',
-      '#d6acd5',
-      '#75d4d5',
-      '#fefefe',
+      '#000000', -- black
+      '#ef565d', -- red
+      '#4fd149', -- green
+      '#ffd478', -- yellow
+      '#77aad5', -- blue
+      '#d6acd5', -- magenta
+      '#75d4d5', -- cyan
+      '#fefefe', -- white
     },
     brights = {
-      '#000000',
-      '#f68d8c',
-      '#a7d3a9',
-      '#ffd478',
-      '#77aad5',
-      '#d6acd5',
-      '#75d4d5',
-      '#fefefe',
+      '#000000', -- black
+      '#f68d8c', -- red
+      '#a7d3a9', -- green
+      '#ffd478', -- yellow
+      '#77aad5', -- blue
+      '#d6acd5', -- magenta
+      '#75d4d5', -- cyan
+      '#fefefe', -- white
     },
     -- dims = {
     --   '#333333',
