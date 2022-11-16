@@ -50,7 +50,11 @@ wezterm.on(
     -- and that we have room for the edges.
     local tab_title = tab.tab_title
     --local tab_id = tab.tab_id
-    local tab_index = tab.tab_index
+    local tab_pos = tab.tab_index + 1
+    local panel_zoomed = ''
+    if tab.active_pane.is_zoomed then
+      panel_zoomed = 'Z'
+    end
 
     return {
       { Background = { Color = edge_background } },
@@ -58,7 +62,7 @@ wezterm.on(
       { Text = SOLID_LEFT_ARROW },
       { Background = { Color = background } },
       { Foreground = { Color = foreground } },
-      { Text = "   ".. tab_index + 1 .. ": " .. tab_title .. "   "},
+      { Text = '   '.. panel_zoomed .. ' '.. tab_pos .. ': ' .. tab_title .. '   '},
       { Background = { Color = edge_background } },
       { Foreground = { Color = edge_foreground } },
       { Text = SOLID_RIGHT_ARROW },
