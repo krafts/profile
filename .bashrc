@@ -1,6 +1,6 @@
 ## bash history
 ### set mem hist to some sane amount
-export HISTSIZE=2000
+export HISTSIZE=20000000
 ### set file history to unlimited
 export HISTFILESIZE=
 export HISTTIMEFORMAT='%FT%T%z  '
