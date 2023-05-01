@@ -10,6 +10,10 @@ function _update_ps1() {
   $HOME/.config/starship/starship_setup_conf.sh
 }
 
+function starship_timings() {
+  env STARSHIP_LOG=trace starship timings
+}
+
 # if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
 #   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 # fi
@@ -18,7 +22,7 @@ function _update_ps1() {
 #   PROMPT_COMMAND="_pyenv_virtualenv_hook; starship_precmd"
 # fi
 
-PROMPT_COMMAND="_update_ps1; _pyenv_virtualenv_hook;"
+PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
 
 # starship
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
