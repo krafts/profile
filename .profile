@@ -8,7 +8,10 @@ function _update_ps1() {
   # -c   Clear the history list. This can be combined with the other
   #      options to replace the history list completely.
   # -r   Read the current history file and append its contents to the history list.
-  history -a -c # combine for speed up
+  # they have to be in this order to work correctly for sync the histroy across
+  # the shells
+  history -a
+  history -c
   history -r
   # $HOME/.bash_history_rotater.sh # this is setup in cron to run every 15m */15 * * * * $HOME/.bash_history_rotater.sh
   #PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
