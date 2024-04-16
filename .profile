@@ -31,7 +31,6 @@ function _update_ps1() {
 
 PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
 
-unset PROMPT_COMMAND
 # starship
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
 eval "$(starship init bash)"
