@@ -25,6 +25,7 @@ alias bhs="~/krafts/profile/bash_history_search.sh"
 
 # bash history sync
 alias history_sync="history -a -c; history -r"
+alias hs="history -a -c; history -r"
 
 # sublime text
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -n"
