@@ -1,13 +1,18 @@
 ## setting prompt
-# function _update_ps1() {
-#   #local __ERRCODE=$?
+function _update_ps1() {
+  #local __ERRCODE=$?
 
-#   # these are moved to bash_alias history_sync
-#   history -a -c
-#   history -r
-#   # $HOME/.bash_history_rotater.sh # this is setup in cron to run every 15m */15 * * * * $HOME/.bash_history_rotater.sh
-#   #PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
-# }
+  # https://ss64.com/bash/history.html
+  # -a   Append the new history lines (history lines entered since
+  #      the beginning of the current Bash session) to the history file.
+  # -c   Clear the history list. This can be combined with the other
+  #      options to replace the history list completely.
+  # -r   Read the current history file and append its contents to the history list.
+  history -a -c # combine for speed up
+  history -r
+  # $HOME/.bash_history_rotater.sh # this is setup in cron to run every 15m */15 * * * * $HOME/.bash_history_rotater.sh
+  #PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
+}
 
 # function starship_timings() {
 #   env STARSHIP_LOG=trace starship timings
@@ -21,7 +26,7 @@
 #   PROMPT_COMMAND="_pyenv_virtualenv_hook; starship_precmd"
 # fi
 
-# PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
+PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
 
 unset PROMPT_COMMAND
 # starship
@@ -69,12 +74,13 @@ done
 ## export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g')
 
 ### make sure this is after path dedup
+# pyenv slows down prompt significantly, only do the export for now
 export PATH="$HOME/.pyenv/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-#  export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-fi
+# if command -v pyenv 1>/dev/null 2>&1; then
+#   eval "$(pyenv init -)"
+#   eval "$(pyenv virtualenv-init -)"
+# #  export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+# fi
 
 
 ## tmux init
