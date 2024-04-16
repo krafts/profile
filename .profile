@@ -74,13 +74,15 @@ done
 ## export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g')
 
 ### make sure this is after path dedup
-# pyenv slows down prompt significantly, only do the export for now
+# pyenv slows down prompt significantly use --no-rehash
+# https://github.com/pyenv/pyenv/issues/784
+# https://github.com/pyenv/pyenv-virtualenv/issues/259
 export PATH="$HOME/.pyenv/bin:$PATH"
-# if command -v pyenv 1>/dev/null 2>&1; then
-#   eval "$(pyenv init -)"
-#   eval "$(pyenv virtualenv-init -)"
-# #  export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-# fi
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init - --no-rehash)"
+  eval "$(pyenv virtualenv-init - --no-rehash)"
+#  export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+fi
 
 
 ## tmux init
