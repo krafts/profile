@@ -16,6 +16,16 @@ KEEP=1000
 BASH_HIST=~/.bash_history
 BACKUP=$BASH_HIST.$(date +%Y-%m)
 
+# https://ss64.com/bash/history.html
+# -a   Append the new history lines (history lines entered since
+#      the beginning of the current Bash session) to the history file.
+history -a
+# -c   Clear the history list. This can be combined with the other
+#      options to replace the history list completely.
+history -c
+# -r   Read the current history file and append its contents to the history list.
+history -r
+
 if [ -s "$BASH_HIST" -a "$BASH_HIST" -nt "$BACKUP" ]; then
   # history file is newer then backup
   if [[ -f $BACKUP ]]; then

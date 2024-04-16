@@ -1,18 +1,17 @@
 ## setting prompt
-function _update_ps1() {
-  local __ERRCODE=$?
+# function _update_ps1() {
+#   #local __ERRCODE=$?
 
-  history -a
-  history -c
-  history -r
-  $HOME/.bash_history_rotater.sh
-  #PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
-  $HOME/.config/starship/starship_setup_conf.sh
-}
+#   # these are moved to bash_alias history_sync
+#   history -a -c
+#   history -r
+#   # $HOME/.bash_history_rotater.sh # this is setup in cron to run every 15m */15 * * * * $HOME/.bash_history_rotater.sh
+#   #PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
+# }
 
-function starship_timings() {
-  env STARSHIP_LOG=trace starship timings
-}
+# function starship_timings() {
+#   env STARSHIP_LOG=trace starship timings
+# }
 
 # if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
 #   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
@@ -22,8 +21,9 @@ function starship_timings() {
 #   PROMPT_COMMAND="_pyenv_virtualenv_hook; starship_precmd"
 # fi
 
-PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
+# PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
 
+unset PROMPT_COMMAND
 # starship
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
 eval "$(starship init bash)"
