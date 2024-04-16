@@ -39,6 +39,9 @@ alias kill_dns="sudo killall -HUP mDNSResponder"
 alias gs="git status --short --branch"
 alias sg="gs"
 
+# activate pyenv
+alias pyenv_init='eval "$(pyenv init - --no-rehash)" && eval "$(pyenv virtualenv-init - --no-rehash)"'
+
 # java
 alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11); java -version"
 
