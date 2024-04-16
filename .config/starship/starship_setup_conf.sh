@@ -1,3 +1,6 @@
+# Deprecated since starship v1.17.0, https://github.com/starship/starship/pull/4550
+# NO Longer needed as [[kubernetes.contexts]] are now used, tested in starship v1.18.2
+
 kube_current_context="$(kubectl config current-context)"
 star_config_file="${HOME}/.config/starship/starship.toml"
 

@@ -51,26 +51,92 @@ format = '[$context]($style) '
 disabled = false
 style = "dimmed green"
 
-[kubernetes.context_aliases]
-# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>[0-9]+?):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name"
-"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>333333333333):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD AWS TEAM A"
-"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>222222222222):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM A"
-"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>111111111111):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name SANDBOX AWS TEAM A"
-"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>555555555555):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD AWS TEAM B"
-"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>444444444444):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM B"
-"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>666666666666):cluster/(?P<aws_eks_cluster_name>production?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD TEAM C"
-"arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>666666666666):cluster/(?P<aws_eks_cluster_name>qat?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM C"
-"(?P<cluster_name>cluster-a)" = "PROD->>!!! $cluster_name !!!<<-PROD Executors"
-"(?P<cluster_name>cluster-b)" = "PROD->>!!! $cluster_name !!!<<-PROD Executors"
-"(?P<cluster_name>dev-[\\w-]+?)[\\.].*" = "$cluster_name dev"
-"(?P<cluster_name>qat-[\\w-]+?)[\\.].*" = "$cluster_name QAT"
-"(?P<cluster_name>prod-[\\w-]+?)[\\.].*" = "PROD->>!!! $cluster_name !!!<<-PROD"
-# "dev.local.cluster.k8s" = "dev"
-# ".*/openshift-cluster/.*" = "openshift"
-# "gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"
-# [kubernetes.user_aliases]
-# "dev.local.cluster.k8s" = "dev"
-# "root/.*" = "root"
+# [kubernetes.context_aliases] # starship v1.14.2
+# # "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>[0-9]+?):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name"
+# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>333333333333):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD AWS TEAM A"
+# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>222222222222):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM A"
+# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>111111111111):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name SANDBOX AWS TEAM A"
+# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>555555555555):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD AWS TEAM B"
+# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>444444444444):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM B"
+# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>666666666666):cluster/(?P<aws_eks_cluster_name>production?)" = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD TEAM C"
+# "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>666666666666):cluster/(?P<aws_eks_cluster_name>qat?)" = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM C"
+# "(?P<cluster_name>cluster-a)" = "PROD->>!!! $cluster_name !!!<<-PROD Executors"
+# "(?P<cluster_name>cluster-b)" = "PROD->>!!! $cluster_name !!!<<-PROD Executors"
+# "(?P<cluster_name>dev-[\\w-]+?)[\\.].*" = "$cluster_name dev"
+# "(?P<cluster_name>qat-[\\w-]+?)[\\.].*" = "$cluster_name QAT"
+# "(?P<cluster_name>prod-[\\w-]+?)[\\.].*" = "PROD->>!!! $cluster_name !!!<<-PROD"
+# # "arn:aws:eks:us-west-2:130889915494:cluster/ee-eks" = "test"
+# # "dev.local.cluster.k8s" = "dev"
+# # ".*/openshift-cluster/.*" = "openshift"
+# # "gke_.*_(?P<var_cluster>[\\w-]+)" = "gke-$var_cluster"
+# # [kubernetes.user_aliases]
+# # "dev.local.cluster.k8s" = "dev"
+# # "root/.*" = "root"
+
+# For reference
+# [[kubernetes.contexts]]
+# context_pattern = "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>[0-9]+?):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)"
+# context_alias = "$aws_region $aws_account_id $aws_eks_cluster_name"
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>333333333333):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)"
+context_alias = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD AWS TEAM A"
+style = "fg:196" # https://i.stack.imgur.com/KTSQa.png and https://starship.rs/advanced-config/#style-strings
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>222222222222):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)"
+context_alias = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM A"
+style = "bold yellow"
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>111111111111):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)"
+context_alias = "$aws_region $aws_account_id $aws_eks_cluster_name SANDBOX AWS TEAM A"
+style = "dimmed blue"
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>555555555555):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)"
+context_alias = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD AWS TEAM B"
+style = "fg:196" # https://i.stack.imgur.com/KTSQa.png and https://starship.rs/advanced-config/#style-strings
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>444444444444):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)"
+context_alias = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM B"
+style = "bold yellow"
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>666666666666):cluster/(?P<aws_eks_cluster_name>production?)"
+context_alias = "PROD->>!!! $aws_region $aws_account_id $aws_eks_cluster_name !!!<<-PROD TEAM C"
+style = "fg:196" # https://i.stack.imgur.com/KTSQa.png and https://starship.rs/advanced-config/#style-strings
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>666666666666):cluster/(?P<aws_eks_cluster_name>qat?)"
+context_alias = "$aws_region $aws_account_id $aws_eks_cluster_name STAGING AWS TEAM C"
+style = "bold yellow"
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "(?P<cluster_name>cluster-a)"
+context_alias = "PROD->>!!! $cluster_name !!!<<-PROD Executors"
+style = "fg:196" # https://i.stack.imgur.com/KTSQa.png and https://starship.rs/advanced-config/#style-strings
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "(?P<cluster_name>cluster-b)"
+context_alias = "PROD->>!!! $cluster_name !!!<<-PROD Executors"
+style = "fg:196" # https://i.stack.imgur.com/KTSQa.png and https://starship.rs/advanced-config/#style-strings
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "(?P<cluster_name>prod-[\\w-]+?)[\\.].*"
+context_alias = "PROD->>!!! $cluster_name !!!<<-PROD"
+style = "fg:196" # https://i.stack.imgur.com/KTSQa.png and https://starship.rs/advanced-config/#style-strings
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "(?P<cluster_name>qat-[\\w-]+?)[\\.].*"
+context_alias = "$cluster_name QAT"
+style = "bold yellow"
+
+[[kubernetes.contexts]] # starship >= v1.17.0
+context_pattern = "(?P<cluster_name>dev-[\\w-]+?)[\\.].*"
+context_alias = "$cluster_name dev"
+style = "dimmed blue"
 
 [aws]
 # format = 'on [$symbol($profile )(\($region\) )]($style)'
