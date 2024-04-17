@@ -35,8 +35,17 @@ PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
 eval "$(starship init bash)"
 
+## go setup
+export GOPATH=$HOME/workspace/go
+## directly in single PATH export
+# export PATH="$GOPATH/bin:$PATH"
+
+## poetry
+## directly in single PATH export
+# export PATH="$HOME/.local/bin:$PATH"
+
 ## essentials
-export PATH="$HOME/.pyenv/bin:$HOME/local/tfenv/bin:$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$HOME/local/coreutils/bin:$HOME/local/apache-maven/bin:$HOME/.npm-global/bin:$HOME/local/bash/bin:$HOME/local/tmux/bin:$HOME/local/pkg-config/bin:$HOME/local/automake/bin:$HOME/local/autoconf/bin:$HOME/local/git/bin:$HOME/scripts:/usr/local/bin:$HOME/.cargo/bin:$HOME/local/coreutils/bin:$PATH:/sbin"
+export PATH="$GOPATH/bin:$HOME/.local/bin:$HOME/.pyenv/bin:$HOME/local/tfenv/bin:$HOME/.krew/bin:$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$HOME/local/coreutils/bin:$HOME/local/apache-maven/bin:$HOME/.npm-global/bin:$HOME/local/bash/bin:$HOME/local/tmux/bin:$HOME/local/pkg-config/bin:$HOME/local/automake/bin:$HOME/local/autoconf/bin:$HOME/local/git/bin:$HOME/scripts:$HOME/.cargo/bin:$HOME/local/coreutils/bin:/opt/podman/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export MANPATH=$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -94,13 +103,6 @@ export TMUX_TMPDIR=$HOME
 
 # glcoud python3 hack
 #export CLOUDSDK_PYTHON="$HOME/.pyenv/versions/3.7.6/bin/python"
-
-## go setup
-export GOPATH=$HOME/workspace/go
-export PATH="$GOPATH/bin:$PATH"
-
-## poetry
-export PATH="$HOME/.local/bin:$PATH"
 
 ## maven
 export M2_HOME=$HOME/apache-maven
