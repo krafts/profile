@@ -54,3 +54,10 @@ alias kx="kubectx"
 
 # vs code
 alias code="code -n"
+
+# lazygit
+alias lg="lazygit"
+
+# docker replacments
+# alias docker="podman"
+alias docker="lima nerdctl"
