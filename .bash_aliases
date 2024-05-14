@@ -61,3 +61,6 @@ alias lg="lazygit"
 # docker replacments
 # alias docker="podman"
 alias docker="lima nerdctl"
+
+# aws
+alias awsme="aws sts get-caller-identity"
