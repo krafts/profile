@@ -64,7 +64,7 @@ export GIT_MERGE_AUTOEDIT=no
 ssh-add ~/.ssh/id_rsa
 
 ## external imports
-for f in ~/.bash_aliases ~/.ansible.conf ~/.rackspace_project_creds ~/.git-prompt.sh ~/.bashrc_da ~/.cargo/env ~/.aws-azure-login ~/.gitlab_token ~/.gfn.sh ~/.vault_aliases.sh #~/.google-cloud-sdk
+for f in ~/.bash_aliases ~/.ansible.conf ~/.rackspace_project_creds ~/.git-prompt.sh ~/.bashrc_da ~/.cargo/env ~/.aws-azure-login ~/.gitlab_token ~/.gfn.sh ~/.vault_aliases.sh ~/.kpt.sh #~/.google-cloud-sdk
 do
   if [ ! -f "$f" ]; then
     continue
