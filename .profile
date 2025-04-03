@@ -45,7 +45,7 @@ export GOPATH=$HOME/workspace/go
 # export PATH="$HOME/.local/bin:$PATH"
 
 ## essentials
-export PATH="$GOPATH/bin:$HOME/.local/bin:$HOME/.pyenv/bin:$HOME/local/tfenv/bin:$HOME/.krew/bin:$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$HOME/local/coreutils/bin:$HOME/local/apache-maven/bin:$HOME/.npm-global/bin:$HOME/local/bash/bin:$HOME/local/tmux/bin:$HOME/local/pkg-config/bin:$HOME/local/automake/bin:$HOME/local/autoconf/bin:$HOME/local/git/bin:$HOME/scripts:$HOME/.cargo/bin:$HOME/local/coreutils/bin:/opt/podman/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="$GOPATH/bin:$HOME/.local/bin:$HOME/.krew/bin:$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$HOME/.npm-global/bin:$HOME/scripts:$HOME/.cargo/bin:/$HOME/.rd/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export MANPATH=$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -103,6 +103,9 @@ export TMUX_TMPDIR=$HOME
 
 # glcoud python3 hack
 #export CLOUDSDK_PYTHON="$HOME/.pyenv/versions/3.7.6/bin/python"
+
+## brew
+export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/brewfile
 
 ## maven
 export M2_HOME=$HOME/apache-maven
