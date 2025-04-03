@@ -129,6 +129,12 @@
   db = "!_() { git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'; }; _"
   nf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" != \"main\" ] && [ \"$branch\" != \"master\" ]; then echo \"cannot create feature/fix branch from ${branch}, can only do this from main or master\"; exit 1; fi; git checkout ${branch} && git pull --rebase && git punt && git checkout -b \"$1\" || git checkout \"$1\" && git push --set-upstream origin \"$1\"; }; _"
   amd = commit --amend -C HEAD@{1}
+  rsa = commit --amend --reset-author --no-edit
+  wt = worktree
+  wtl = worktree list
+  wta = worktree add
+  wtr = worktree remove
+  wtm = worktree move
 
 ## chlogm =  !sh -c 'git log $1...$2  --pretty=format:\"%s [view commit](http://github.com/$3/$4/commit/%H) \"' ## https://coderwall.com/p/5cv5lg/generate-your-changelogs-with-git-log, top comment by bainternet
 
