@@ -105,7 +105,7 @@ export TMUX_TMPDIR=$HOME
 #export CLOUDSDK_PYTHON="$HOME/.pyenv/versions/3.7.6/bin/python"
 
 ## brew
-export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/brewfile
+export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/Brewfile
 
 ## maven
 export M2_HOME=$HOME/apache-maven
