@@ -40,7 +40,7 @@ alias gs="git status --short --branch"
 alias sg="gs"
 
 # activate pyenv
-alias pyenv_init='eval "$(pyenv init - --no-rehash)" && eval "$(pyenv virtualenv-init - --no-rehash)"'
+#alias pyenv_init='eval "$(pyenv init - --no-rehash)" && eval "$(pyenv virtualenv-init - --no-rehash)"'
 
 # java
 alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11); java -version"
@@ -60,7 +60,7 @@ alias lg="lazygit"
 
 # docker replacments
 # alias docker="podman"
-alias docker="lima nerdctl"
+# alias docker="lima nerdctl"
 
 # aws
 alias awsme="aws sts get-caller-identity"
