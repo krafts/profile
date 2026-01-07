@@ -49,7 +49,7 @@ disabled = true
 [kubernetes]
 format = '[$context]($style) '
 disabled = false
-style = "bold yellow"
+style = "dimmed blue"
 
 [kubernetes.context_aliases]
 # "arn:aws:eks:(?P<aws_region>[\\w-]+?):(?P<aws_account_id>[0-9]+?):cluster/(?P<aws_eks_cluster_name>[\\w-]+?)" = "$aws_region $aws_account_id $aws_eks_cluster_name"
@@ -159,6 +159,16 @@ ignore_submodules = false
 # diverged = "<>"
 # renamed = "r"
 # deleted = "x"
+
+[cmd_duration]
+disabled = false
+min_time = 0
+show_milliseconds = false
+format = '[$duration]($style) ' # default is 'took [$duration]($style) '
+style = 'fg:235' # default is 'bold yellow' # https://i.stack.imgur.com/KTSQa.png and https://starship.rs/advanced-config/#style-strings
+show_notifications = false
+min_time_to_notify = 45_000
+notification_timeout = 45_000
 
 [time]
 disabled = false
