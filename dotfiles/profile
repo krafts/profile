@@ -45,7 +45,7 @@ export GOPATH=$HOME/workspace/go
 # export PATH="$HOME/.local/bin:$PATH"
 
 ## essentials
-export PATH="$GOPATH/bin:$HOME/.local/bin:$HOME/.krew/bin:$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$HOME/.npm-global/bin:$HOME/scripts:$HOME/.cargo/bin:/$HOME/.rd/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="$GOPATH/bin:$HOME/.local/bin:$HOME/.krew/bin:$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$HOME/.npm-global/bin:$HOME/scripts:$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/workspace/krafts/utils:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export MANPATH=$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -106,6 +106,7 @@ export TMUX_TMPDIR=$HOME
 
 ## brew
 export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/Brewfile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ## maven
 export M2_HOME=$HOME/apache-maven
