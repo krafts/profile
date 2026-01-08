@@ -45,8 +45,11 @@ background = "0x000000"
 foreground = "0xc8c8c8"
 
 [cursor]
-style = "Underline"
 unfocused_hollow = false
+
+[cursor.style]
+shape = "Block"
+blinking = "Never"
 
 [font]
 size = 15.0
