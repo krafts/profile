@@ -154,8 +154,9 @@
 
 [filter "trimWhitespace"]
   clean = git-stripspace
+
 [credential]
-	helper = osxkeychain
+  helper = osxkeychain
 
 [interactive]
-	diffFilter = diff-so-fancy --patch
+  diffFilter = diff-so-fancy --patch
