@@ -1,0 +1,123 @@
+[bell]
+animation = "EaseOutExpo"
+color = "0xffffff"
+duration = 5
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "0x000000"
+blue = "0x77aad5"
+cyan = "0x75d4d5"
+green = "0xa7d3a9"
+magenta = "0xd6acd5"
+red = "0xf68d8c"
+white = "0xfefefe"
+yellow = "0xffd478"
+
+[colors.cursor]
+cursor = "0xd5d5d5"
+text = "0x3b3b3b"
+
+[colors.dim]
+black = "0x333333"
+blue = "0x6699cc"
+cyan = "0x66cccc"
+green = "0x99cc99"
+magenta = "0xcc99cc"
+red = "0xf2777a"
+white = "0xdddddd"
+yellow = "0xffcc66"
+
+[colors.normal]
+black = "0x000000"
+blue = "0x77aad5"
+cyan = "0x75d4d5"
+green = "0x4fd149"
+magenta = "0xd6acd5"
+red = "0xef565d"
+white = "0xfefefe"
+yellow = "0xffd478"
+
+[colors.primary]
+background = "0x000000"
+foreground = "0xc8c8c8"
+
+[cursor]
+style = "Underline"
+unfocused_hollow = false
+
+[font]
+size = 15.0
+
+[font.bold]
+family = "MonoLisa"
+style = "Medium"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "MonoLisa"
+style = "Medium"
+
+[font.normal]
+family = "MonoLisa"
+style = "Medium"
+
+[font.offset]
+x = 0
+y = 0
+
+[[hints.enabled]]
+command = "open"
+hyperlinks = true
+post_processing = true
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+[hints.enabled.binding]
+key = "U"
+mods = "Control|Shift"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "None"
+
+[mouse]
+hide_when_typing = false
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Right"
+
+[scrolling]
+history = 100000
+multiplier = 3
+
+[selection]
+save_to_clipboard = false
+semantic_escape_chars = """,│`|:"' ()[]{}<>\t"""
+
+[terminal.shell]
+program = "/opt/homebrew/bin/bash"
+args = ["--login", "-c", "tmux -2 new-session -A -s main"]
+
+[window]
+decorations = "full"
+opacity = 0.85
+startup_mode = "Windowed"
+
+[window.dimensions]
+columns = 150
+lines = 25
+
+[window.padding]
+x = 2
+y = 2
+
+[general]
+live_config_reload = true
+
+[terminal]
