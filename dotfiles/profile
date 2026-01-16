@@ -117,3 +117,9 @@ export M2_HOME=$HOME/apache-maven
 ## ansible
 ### https://github.com/ansible/ansible/issues/32499
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+## for aws-azure-login
+## https://github.com/aws-azure-login/aws-azure-login/issues/166#issuecomment-1109303601
+## https://linguinecode.com/post/how-to-fix-m1-mac-puppeteer-chromium-arm64-bug
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_EXECUTABLE_PATH=$HOME/local/chromium/bin/Chromium.app/Contents/MacOS/Chromium
