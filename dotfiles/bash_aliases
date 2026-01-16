@@ -24,7 +24,7 @@ alias caly="gcal $(date +'%Y')"
 alias cls="clear; printf '\033[3J'"
 
 # bash history searcher
-alias bhs="~/krafts/profile/bash_history_search.sh"
+alias bhs="~/workspace/krafts/profile/scripts/bash_history_search.sh"
 
 # sublime text
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -n"
