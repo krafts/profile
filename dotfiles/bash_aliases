@@ -1,3 +1,6 @@
+# ls
+alias ls="eza -o --sort new"
+
 # shortcuts for applications
 alias v='vagrant'
 alias vi=vim
