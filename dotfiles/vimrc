@@ -10,7 +10,7 @@ set tabstop=2
 set shiftwidth=2
 
 syntax on
-colorscheme Tomorrow-Night-Bright
+"" colorscheme Tomorrow-Night-Bright
 filetype on
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
