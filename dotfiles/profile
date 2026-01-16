@@ -108,6 +108,9 @@ export TMUX_TMPDIR=$HOME
 export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/Brewfile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+## k9s
+export K9S_CONFIG_DIR="$HOME/.config/k9s"
+
 ## maven
 export M2_HOME=$HOME/apache-maven
 
