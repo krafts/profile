@@ -74,7 +74,7 @@ alias awsme="aws sts get-caller-identity"
 # claude code
 alias claude='claude --model opus[1m] --effort max --permission-mode auto'
 alias tokens="claude -p --permission-mode auto --permission-prompts none '/tokens'"
-upgrade_claude() {
+function upgrade_claude() {
   if [ "$(uname -s)" = "Darwin" ]; then
     brew upgrade claude-code
     xattr ${HOMEBREW_PREFIX}/bin/claude | grep -q com.apple.quarantine \
@@ -85,7 +85,7 @@ upgrade_claude() {
 }
 
 # codex
-upgrade_codex() {
+function upgrade_codex() {
   if [ "$(uname -s)" = "Darwin" ]; then
     brew upgrade codex
   elif [ "$(uname -s)" = "Linux" ]; then
