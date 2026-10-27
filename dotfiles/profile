@@ -88,7 +88,7 @@ init_tool() {
 
 # ssh agent
 init_tool ssh-agent -s >/dev/null
-[ -f ~/.ssh/id_rsa ] && ssh-add ~/.ssh/id_rsa 2>/dev/null
+if [ -f ~/.ssh/id_rsa ]; then ssh-add ~/.ssh/id_rsa 2>/dev/null; fi
 
 # starship
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
