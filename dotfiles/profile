@@ -83,8 +83,12 @@ export PUPPETEER_EXECUTABLE_PATH=$HOME/local/chromium/bin/Chromium.app/Contents/
 # eval a tool's shell init if the tool is installed: init_tool <cmd> <args...>
 init_tool() {
     command -v "$1" >/dev/null 2>&1 || return 0
-    eval "$(command "$@")"
+    eval -- "$(command "$@")"
 }
+
+# starship (after PROMPT_COMMAND is set, so starship wraps it instead of being overwritten)
+export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
+init_tool /opt/homebrew/bin/starship init bash --print-full-init
 
 # ssh agent
 init_tool ssh-agent -s >/dev/null
