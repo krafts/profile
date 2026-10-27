@@ -109,3 +109,6 @@ alias wtrb="git fetch origin && wt step rebase origin/main"
 
 # tmux
 alias tm="tmux -2 new-session -A -s main"
+
+# herdr
+alias hr=herdr
