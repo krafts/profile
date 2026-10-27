@@ -46,7 +46,7 @@ alias sg="gs"
 #alias pyenv_init='eval "$(pyenv init - --no-rehash)" && eval "$(pyenv virtualenv-init - --no-rehash)"'
 
 # java
-alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11); java -version"
+#alias j11="export JAVA_HOME=$(/usr/libexec/java_home -v 11); java -version"
 
 # timezone
 alias tz="TZ_LIST=America/Los_Angeles,Australia/Sydney,UTC tz"
@@ -66,4 +66,26 @@ alias lg="lazygit"
 # alias docker="lima nerdctl"
 
 # aws
-alias awsme="aws sts get-caller-identity"
+alias awswhoami="aws sts get-caller-identity"
+alias awswho="aws sts get-caller-identity"
+alias awsw="aws sts get-caller-identity"
+
+# claude code
+alias claude='claude --model opus[1m] --effort max --permission-mode auto'
+alias tokens="claude -p --permission-mode auto --permission-prompts none '/tokens'"
+
+# btop
+alias btop="btop -u 500"
+
+# yazi
+alias yz="yazi"
+
+# worktrunk
+alias wtl="wt list"
+alias wts="wt switch"
+alias wtsc="wt switch --create"
+alias wtr="wt remove"
+alias wtrb="git fetch origin && wt step rebase origin/main"
+
+# tmux
+alias tm="tmux -2 new-session -A -s main"
