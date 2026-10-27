@@ -7,6 +7,7 @@
 
 [push]
   default = simple
+	useForceIfIncludes = true
 
 #[merge]
 #  tool = vimdiff
@@ -65,6 +66,7 @@
   k = !gitk -all&
   ft = fetch
   mg = merge
+  fo = fetch origin
   pl = pull --rebase
   po = pull --rebase origin
   ps = push
@@ -106,7 +108,7 @@
   ff = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && git fr && git flow feature finish $(echo $b | sed 's/feature\\///g') && git ps && git poo $b && git dlb $b; }; _"
   punt = "!_() { git remote prune origin && git branch -vv | grep ': gone] ' | awk '{print $1}' | xargs git branch -D; }; _"
   dlb = "!_() { branch=\"$@\" && git rev-parse --verify --quiet \"$branch\" 2>&1>/dev/null && printf \"DELETE local branch $branch [y/N]: \"; read answer; if echo \"$answer\" | grep -iq \"^y\"; then git b -D \"$branch\"; fi; }; _"
-  psf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" == \"develop\" ]; then echo \"cannot force push develop\"; exit 1; elif [ \"$branch\" == \"master\" ]; then echo \"cannot force push master\"; exit 1; else git ps --force; fi; }; _"
+  psf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" == \"develop\" ]; then echo \"cannot force push develop\"; exit 1; elif [ \"$branch\" == \"master\" ]; then echo \"cannot force push master\"; exit 1; else git ps --force-with-lease; fi; }; _"
   account = "!_() { git remote -v | awk -F':' '{print $2}' | awk '{print $1}' | awk -F'/' '{print $1}' | sort | uniq | head -1; }; _"
   repo = "!_() { git remote -v | awk -F':' '{print $2}' | awk '{print $1}' | awk -F'/' '{print $2}' | awk -F'.' '{print $1}' | sort | uniq | head -1; }; _"
   prbase = "!_() { b=$(git rev-parse --abbrev-ref HEAD) && if echo $b | grep -q ^hotfix 2>&1>/dev/null; then echo master; elif echo $b | grep -q ^feature 2>&1>/dev/null; then echo develop; fi; }; _"
@@ -131,11 +133,14 @@
   nf = "!_() { branch=$(git rev-parse --abbrev-ref HEAD); if [ \"$branch\" != \"main\" ] && [ \"$branch\" != \"master\" ]; then echo \"cannot create feature/fix branch from ${branch}, can only do this from main or master\"; exit 1; fi; git checkout ${branch} && git pull --rebase && git punt && git checkout -b \"$1\" || git checkout \"$1\" && git push --set-upstream origin \"$1\"; }; _"
   amd = commit --amend -C HEAD@{1}
   rsa = commit --amend --reset-author --no-edit
-  wt = worktree
-  wtl = worktree list
-  wta = worktree add
-  wtr = worktree remove
-  wtm = worktree move
+  #wt = "!_() { wt; }; _"
+  #wtl = "!_() { wt list; }; _"
+  #wts = "!_() { wt switch; }; _"
+  #wta = "!_() { top_level_dir=$(git rev-parse --show-toplevel); worktree_dir=\"$top_level_dir/../$1\"; git worktree add -b \"$1\" \"$worktree_dir\"; cd $worktree_dir; git push --set-upstream origin $1; }; _"
+  #wtr = "!_() { top_level_dir=$(git rev-parse --show-toplevel); worktree_dir=\"$top_level_dir/../$1\"; git worktree remove \"$worktree_dir\"; git poo \"$1\"; git branch -d \"$1\"; }; _"
+  #wtr = "!_() { top_level_dir=$(git rev-parse --show-toplevel); worktree_dir=\"$top_level_dir/../$1\"; default_dir=\"$top_level_dir/../$(git db)\";  cd $default_dir; git poo $1; git worktree remove $worktree_dir; git branch -d \"$1\"; }; _"
+  #wtm = worktree move
+  #wtrb = "!_() { branch=$(git brn) && default_branch=$(git db) && if [ \"$branch\" == \"$default_branch\" ]; then echo \"cannot rebase $branch onto $default_branch\"; exit 1; fi && top_level_dir=\"$(git rev-parse --show-toplevel)\" && default_dir=\"$top_level_dir/../$default_branch\" && branch_dir=\"$top_level_dir/../$branch\" && printf \"$branch ->   \" && git pull --rebase && cd \"$default_dir\" && printf \"$default_branch ->   \" && git pull --rebase --autostash && cd \"$branch_dir\" && git rebase \"$default_branch\" && git psf; }; _"
 
 ## chlogm =  !sh -c 'git log $1...$2  --pretty=format:\"%s [view commit](http://github.com/$3/$4/commit/%H) \"' ## https://coderwall.com/p/5cv5lg/generate-your-changelogs-with-git-log, top comment by bainternet
 
@@ -160,3 +165,8 @@
 
 [interactive]
   diffFilter = diff-so-fancy --patch
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
