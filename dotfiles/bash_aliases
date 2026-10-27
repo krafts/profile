@@ -72,7 +72,7 @@ alias awsw="aws sts get-caller-identity"
 alias awsme="aws sts get-caller-identity"
 
 # claude code
-alias claude='claude --model opus[1m] --effort max --permission-mode auto'
+alias claude='claude --model opus[1m] --effort high --permission-mode auto'
 alias tokens="claude -p --permission-mode auto --permission-prompts none '/tokens'"
 function upgrade_claude() {
   if [ "$(uname -s)" = "Darwin" ]; then
