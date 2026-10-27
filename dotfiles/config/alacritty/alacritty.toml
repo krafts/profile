@@ -52,7 +52,7 @@ shape = "Block"
 blinking = "Never"
 
 [font]
-size = 15.0
+size = 17.0
 
 [font.bold]
 family = "MonoLisa"
@@ -105,7 +105,7 @@ semantic_escape_chars = """,│`|:"' ()[]{}<>\t"""
 
 [terminal.shell]
 program = "/opt/homebrew/bin/bash"
-args = ["--login", "-c", "tmux -2 new-session -A -s main"]
+args = ["--login"] # ["-c", "tmux -2 new-session -A -s main"]
 
 [window]
 decorations = "full"
