@@ -1,4 +1,4 @@
-## setting prompt
+# setting prompt
 function _update_ps1() {
   #local __ERRCODE=$?
 
@@ -31,20 +31,10 @@ function _update_ps1() {
 
 PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
 
-# starship
-export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
-eval "$(starship init bash)"
-
-## go setup
+# go setup
 export GOPATH=$HOME/workspace/go
-## directly in single PATH export
-# export PATH="$GOPATH/bin:$PATH"
 
-## poetry
-## directly in single PATH export
-# export PATH="$HOME/.local/bin:$PATH"
-
-## essentials
+# essentials
 export PATH="$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$GOPATH/bin:$HOME/.local/bin:$HOME/.krew/bin:$HOME/.npm-global/bin:$HOME/scripts:$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/workspace/krafts/utils:$HOME/workspace/krafts/profile/scripts:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export MANPATH=$MANPATH
 export LC_ALL=en_US.UTF-8
@@ -69,54 +59,24 @@ do
   . "$f"
 done
 
-
-# Setting PATH for Python 2.7
-#export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-
-# Setting PATH for Python 3.6
-#export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
-
 # dedup path at the end
-## thanks to http://unix.stackexchange.com/questions/14895/duplicate-entries-in-path-a-problem
-## export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g')
+# thanks to http://unix.stackexchange.com/questions/14895/duplicate-entries-in-path-a-problem
+#export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g')
 
-### make sure this is after path dedup
-#export PATH="$HOME/.pyenv/bin:$PATH"
-# moved this to an alias, to be run on-demand
-# # pyenv slows down prompt significantly use --no-rehash
-# # https://github.com/pyenv/pyenv/issues/784
-# # https://github.com/pyenv/pyenv-virtualenv/issues/259
-# if command -v pyenv 1>/dev/null 2>&1; then
-#   eval "$(pyenv init - --no-rehash)"
-#   eval "$(pyenv virtualenv-init - --no-rehash)"
-# #  export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-# fi
-
-
-## tmux init
+# tmux init
 #. ~/.tmux.sh
 export TMUX_TMPDIR=$HOME
 
-# glcoud python3 hack
-#export CLOUDSDK_PYTHON="$HOME/.pyenv/versions/3.7.6/bin/python"
-
-## brew
-export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/Brewfile
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-## k9s
+# k9s
 export K9S_CONFIG_DIR="$HOME/.config/k9s"
 
-## maven
-export M2_HOME=$HOME/apache-maven
-
-## ansible
-### https://github.com/ansible/ansible/issues/32499
+# ansible
+# https://github.com/ansible/ansible/issues/32499
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-## for aws-azure-login
-## https://github.com/aws-azure-login/aws-azure-login/issues/166#issuecomment-1109303601
-## https://linguinecode.com/post/how-to-fix-m1-mac-puppeteer-chromium-arm64-bug
+# for aws-azure-login
+# https://github.com/aws-azure-login/aws-azure-login/issues/166#issuecomment-1109303601
+# https://linguinecode.com/post/how-to-fix-m1-mac-puppeteer-chromium-arm64-bug
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_EXECUTABLE_PATH=$HOME/local/chromium/bin/Chromium.app/Contents/MacOS/Chromium
 
@@ -126,9 +86,17 @@ init_tool() {
     eval "$(command "$@")"
 }
 
-## ssh agent
+# ssh agent
 init_tool ssh-agent -s >/dev/null
 [ -f ~/.ssh/id_rsa ] && ssh-add ~/.ssh/id_rsa 2>/dev/null
+
+# starship
+export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
+init_tool starship init bash
+
+# brew
+export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/Brewfile
+init_tool /opt/homebrew/bin/brew shellenv
 
 init_tool zoxide init bash
 init_tool mise activate bash
