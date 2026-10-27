@@ -69,10 +69,30 @@ alias lg="lazygit"
 alias awswhoami="aws sts get-caller-identity"
 alias awswho="aws sts get-caller-identity"
 alias awsw="aws sts get-caller-identity"
+alias awsme="aws sts get-caller-identity"
 
 # claude code
 alias claude='claude --model opus[1m] --effort max --permission-mode auto'
 alias tokens="claude -p --permission-mode auto --permission-prompts none '/tokens'"
+upgrade_claude() {
+  if [ "$(uname -s)" = "Darwin" ]; then
+    brew upgrade claude-code
+    xattr ${HOMEBREW_PREFIX}/bin/claude | grep -q com.apple.quarantine \
+      && xattr -dv com.apple.quarantine ${HOMEBREW_PREFIX}/bin/claude
+  elif [ "$(uname -s)" = "Linux" ]; then
+    sudo apt update && sudo apt install --only-upgrade claude-code
+  fi
+}
+
+# codex
+upgrade_codex() {
+  if [ "$(uname -s)" = "Darwin" ]; then
+    brew upgrade codex
+  elif [ "$(uname -s)" = "Linux" ]; then
+    sudo apt update && sudo apt install --only-upgrade codex
+  fi
+}
+
 
 # btop
 alias btop="btop -u 500"
