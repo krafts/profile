@@ -35,13 +35,40 @@ PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
 export GOPATH=$HOME/workspace/go
 
 # essentials
-export PATH="$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$GOPATH/bin:$HOME/.local/bin:$HOME/.krew/bin:$HOME/.npm-global/bin:$HOME/scripts:$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/workspace/krafts/utils:$HOME/workspace/krafts/profile/scripts:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/snap/bin:/opt/homebrew/bin:$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$GOPATH/bin:$HOME/.local/bin:$HOME/.krew/bin:$HOME/.npm-global/bin:$HOME/scripts:$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/workspace/krafts/utils:$HOME/workspace/krafts/profile/scripts:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export MANPATH=$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export TERM=xterm-256color
 umask 0022
+
+# eval a tool's shell init if the tool is installed: init_tool <cmd> <args...>
+function init_tool() {
+    command -v "$1" >/dev/null 2>&1 || return 0
+    eval -- "$(command "$@")"
+}
+
+# mise first
+init_tool mise activate bash --shims
+
+
+# brew
+export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/Brewfile
+init_tool brew shellenv
+
+# starship (after PROMPT_COMMAND is set, so starship wraps it instead of being overwritten)
+export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
+init_tool starship init bash --print-full-init
+
+# zoxide and wt
+init_tool zoxide init bash
+init_tool wt config shell init bash
+
+# ssh agent
+init_tool ssh-agent -s >/dev/null
+if [ -f ~/.ssh/id_rsa ]; then ssh-add ~/.ssh/id_rsa 2>/dev/null; fi
+
 
 ## editor
 export EDITOR=vim
@@ -80,28 +107,5 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_EXECUTABLE_PATH=$HOME/local/chromium/bin/Chromium.app/Contents/MacOS/Chromium
 
-# eval a tool's shell init if the tool is installed: init_tool <cmd> <args...>
-function init_tool() {
-    command -v "$1" >/dev/null 2>&1 || return 0
-    eval -- "$(command "$@")"
-}
-
-# starship (after PROMPT_COMMAND is set, so starship wraps it instead of being overwritten)
-export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
-init_tool /opt/homebrew/bin/starship init bash --print-full-init
-
-# ssh agent
-init_tool ssh-agent -s >/dev/null
-if [ -f ~/.ssh/id_rsa ]; then ssh-add ~/.ssh/id_rsa 2>/dev/null; fi
-
-# starship
-export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
-init_tool starship init bash
-
-# brew
-export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/Brewfile
-init_tool /opt/homebrew/bin/brew shellenv
-
-init_tool zoxide init bash
-init_tool mise activate bash
-init_tool wt config shell init bash
+# kind and podman
+export KIND_EXPERIMENTAL_PROVIDER="podman"
