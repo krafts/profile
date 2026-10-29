@@ -86,6 +86,15 @@ do
   . "$f"
 done
 
+# OPENSPEC:START
+# OpenSpec shell completions configuration
+if [ -d '/Users/v/.local/share/bash-completion/completions' ]; then
+  for f in '/Users/v/.local/share/bash-completion/completions'/*; do
+    [ -f "$f" ] && . "$f"
+  done
+fi
+# OPENSPEC:END
+
 # dedup path at the end
 # thanks to http://unix.stackexchange.com/questions/14895/duplicate-entries-in-path-a-problem
 #export PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++' | sed 's/:://g')
