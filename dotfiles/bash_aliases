@@ -72,7 +72,7 @@ alias awsw="aws sts get-caller-identity"
 alias awsme="aws sts get-caller-identity"
 
 # harness
-alias upgrade_harness='npm install -g @opencode/cli@latest @anthropic-ai/claude-code@latest @openai/codex@latest'
+alias update_harness='npm install -g @opencode/cli@latest @anthropic-ai/claude-code@latest @openai/codex@latest'
 alias tokens='python3 -I $HOME/.agents/skills/tokens/usage.py'
 
 # btop
