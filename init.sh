@@ -47,7 +47,6 @@ link_file $SCRIPT_DIR/dotfiles/config/alacritty/alacritty.toml $HOME/.config/ala
 link_file $SCRIPT_DIR/dotfiles/config/brew/Brewfile $HOME/.config/brew/Brewfile
 link_file $SCRIPT_DIR/dotfiles/config/starship/starship.toml $HOME/.config/starship/starship.toml
 link_file $SCRIPT_DIR/dotfiles/config/k9s/config.yaml $HOME/.config/k9s/config.yaml
-link_file $SCRIPT_DIR/dotfiles/gitignore $HOME/.gitignore
 link_file $SCRIPT_DIR/dotfiles/gitignore_global $HOME/.gitignore_global
 link_file $SCRIPT_DIR/dotfiles/zshrc $HOME/.zshrc
 link_file $SCRIPT_DIR/dotfiles/zprofile $HOME/.zprofile
@@ -60,7 +59,6 @@ link_file $SCRIPT_DIR/dotfiles/zlogout $HOME/.zlogout
 # unlink_file $HOME/.bash_aliases
 # unlink_file $HOME/.bash_profile
 # unlink_file $HOME/.gitconfig
-# unlink_file $HOME/.gitignore
 # unlink_file $HOME/.gitignore_global
 # unlink_file $HOME/.vimrc
 # unlink_file $HOME/.zshrc
