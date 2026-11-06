@@ -43,7 +43,7 @@
 [alias]
   git = !exec git
   sha = rev-parse HEAD
-  ecg = config --global -e
+  ecg = !git config --file ~/.config/git/config -e
   ecl = config --local -e
   ci = commit
   b = branch

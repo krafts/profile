@@ -37,12 +37,12 @@ link_file $SCRIPT_DIR/dotfiles/profile $HOME/.profile
 link_file $SCRIPT_DIR/dotfiles/bashrc $HOME/.bashrc
 link_file $SCRIPT_DIR/dotfiles/bash_profile $HOME/.bash_profile
 link_file $SCRIPT_DIR/dotfiles/bash_aliases $HOME/.bash_aliases
-link_file $SCRIPT_DIR/dotfiles/gitconfig $HOME/.gitconfig
 link_file $SCRIPT_DIR/dotfiles/tmux.conf $HOME/.tmux.conf
 link_file $SCRIPT_DIR/dotfiles/vimrc $HOME/.vimrc
 
 ## Config Dir Files
 link_file $SCRIPT_DIR/dotfiles/ssh/config $HOME/.ssh/config
+link_file $SCRIPT_DIR/dotfiles/gitconfig $HOME/.config/git/config
 link_file $SCRIPT_DIR/dotfiles/config/alacritty/alacritty.toml $HOME/.config/alacritty/alacritty.toml
 link_file $SCRIPT_DIR/dotfiles/config/brew/Brewfile $HOME/.config/brew/Brewfile
 link_file $SCRIPT_DIR/dotfiles/config/starship/starship.toml $HOME/.config/starship/starship.toml
@@ -58,7 +58,7 @@ link_file $SCRIPT_DIR/dotfiles/zlogout $HOME/.zlogout
 # unlink_file $HOME/.bashrc
 # unlink_file $HOME/.bash_aliases
 # unlink_file $HOME/.bash_profile
-# unlink_file $HOME/.gitconfig
+# unlink_file $HOME/.config/git/config
 # unlink_file $HOME/.gitignore_global
 # unlink_file $HOME/.vimrc
 # unlink_file $HOME/.zshrc
