@@ -43,6 +43,11 @@ export LANGUAGE=en_US.UTF-8
 export TERM=xterm-256color
 umask 0022
 
+# add rex to path
+if [ -n "$REX_BIN_DIR" ]; then
+    export PATH="$REX_BIN_DIR:$PATH"
+fi
+
 # eval a tool's shell init if the tool is installed: init_tool <cmd> <args...>
 function init_tool() {
     command -v "$1" >/dev/null 2>&1 || return 0
