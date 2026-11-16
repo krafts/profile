@@ -1,7 +1,5 @@
 # setting prompt
 function _update_ps1() {
-  #local __ERRCODE=$?
-
   # https://ss64.com/bash/history.html
   # -a   Append the new history lines (history lines entered since
   #      the beginning of the current Bash session) to the history file.
@@ -19,33 +17,21 @@ function _update_ps1() {
   history -a
   history -n
   # $HOME/.bash_history_rotater.sh # this is setup in cron to run every 15m */15 * * * * $HOME/.bash_history_rotater.sh
-  #PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
 }
 
-# function starship_timings() {
-#   env STARSHIP_LOG=trace starship timings
-# }
-
-# if [ "$TERM" != "linux" ] && [ -f /usr/local/bin/powerline-go ]; then
-#   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-# fi
-
-# if [ "$TERM" != "linux" ]; then
-#   PROMPT_COMMAND="_pyenv_virtualenv_hook; starship_precmd"
-# fi
-
-PROMPT_COMMAND="_update_ps1; " #_pyenv_virtualenv_hook;
+PROMPT_COMMAND="_update_ps1; "
 
 # go setup
 export GOPATH=$HOME/workspace/go
 
 # essentials
 export PATH="/snap/bin:/opt/homebrew/bin:$HOME/local/kptenv/bin:$HOME/local/kustomizeenv/bin:$HOME/local/kubectlenv/bin:$GOPATH/bin:$HOME/.local/bin:$HOME/.krew/bin:$HOME/.npm-global/bin:$HOME/scripts:$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/workspace/krafts/utils:$HOME/workspace/krafts/profile/scripts:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export MANPATH=$MANPATH
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
-export TERM=xterm-256color
+# only a fallback: overriding the terminal's own TERM (e.g. tmux's
+# screen-256color) breaks redraws and keys in full-screen programs
+export TERM="${TERM:-xterm-256color}"
 umask 0022
 
 # add rex to path
@@ -59,6 +45,8 @@ fi
 # usage: cached_init [--filter <func>] <command> [args...]
 #   The cache is named after <command>. --filter pipes the init output through
 #   <func> before caching it.
+# Changes to a tool's own config are not detected; to regenerate all caches:
+#   rm -rf ~/.cache/shell-init
 function cached_init() {
     local - filter=cat bin
     set -o pipefail  # fail if the init command fails, not just the filter
@@ -88,12 +76,52 @@ cached_init brew shellenv
 
 # starship (after PROMPT_COMMAND is set, so starship wraps it instead of being overwritten)
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
-# Use bash's $EPOCHREALTIME (ms) instead of exec'ing `starship time` 2x per prompt;
-# process exec is slow here (Defender scans every exec).
+#
+# _starship_init_filter patches starship's bash init script before it is cached
+# (see cached_init), removing starship processes that would otherwise run on
+# every prompt or every shell start. Each process start is slow here (Defender
+# scans every exec, often ~0.7s), so fewer starts means a faster shell.
+# It reads the init script on stdin and writes the patched script to stdout.
+#
+# 1. Command timing (sed): starship times each command by running
+#    `starship time` twice per prompt: in PS0 / the DEBUG trap before the
+#    command, and in starship_precmd after it. Both are replaced with bash's
+#    built-in $EPOCHREALTIME (seconds.microseconds) converted to milliseconds,
+#    which is what `starship time` prints. ${EPOCHREALTIME//[!0-9]/} strips the
+#    decimal separator (locale independent), giving microseconds; / 1000 = ms.
+#    - `$(... starship time)` becomes `$(( ${EPOCHREALTIME//[!0-9]/} / 1000 ))`.
+#    - In PS0 the value is assigned inside an existing $(( )), so
+#      `"$(starship_preexec_ps0)"` becomes just `${EPOCHREALTIME//[!0-9]/}/1000`
+#      (no subshell at all).
+#
+# 2. Continuation prompt (bash loop): the init script sets PS2, the prompt
+#    shown when a command continues onto another line (open quote, trailing
+#    `\`, unfinished if/for), with
+#      PS2="$(/path/to/starship prompt --continuation)"
+#    which starts starship in every new shell, although its output only depends
+#    on the starship config (`continuation_prompt`, default a grey "∙ ").
+#    The command is run once here instead and its output is written into the
+#    cache as a literal, e.g. PS2=$'\\[\E[90m\\]∙\\[\E[0m\\] '.
+#    printf %q quotes the value so escape characters and backslashes survive.
+#    If starship fails, the original line is kept, so PS2 still works.
+#    Note: the cache is not rebuilt when starship.toml changes; after changing
+#    `continuation_prompt`, run: rm -rf ~/.cache/shell-init
+#    A bash loop is used rather than sed because the value contains escape
+#    characters and backslashes that sed would need escaped in a replacement.
 function _starship_init_filter() {
+  local ps2 line
+  ps2=$(starship prompt --continuation) || ps2=
+
   sed -E \
     -e 's#\$\([^()]*starship time\)#$(( ${EPOCHREALTIME//[!0-9]/} / 1000 ))#g' \
-    -e 's#"\$\(starship_preexec_ps0\)"#${EPOCHREALTIME//[!0-9]/}/1000#'
+    -e 's#"\$\(starship_preexec_ps0\)"#${EPOCHREALTIME//[!0-9]/}/1000#' |
+  while IFS= read -r line || [ -n "$line" ]; do
+    if [ -n "$ps2" ] && [[ $line == 'PS2="$('*'starship prompt --continuation)"' ]]; then
+      printf 'PS2=%q\n' "$ps2"
+    else
+      printf '%s\n' "$line"
+    fi
+  done
 }
 cached_init --filter _starship_init_filter starship init bash --print-full-init
 
