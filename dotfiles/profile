@@ -8,11 +8,16 @@ function _update_ps1() {
   # -c   Clear the history list. This can be combined with the other
   #      options to replace the history list completely.
   # -r   Read the current history file and append its contents to the history list.
+  # -n   Read the history lines not already read from the history file into
+  #      the current history list.
+  # -c + -r were replaced with -n: -c + -r clears and reloads the entire history
+  # file on every prompt, so prompt cost grows with the file (HISTSIZE allows
+  # 20M lines). -n reads only the lines appended since the last read, giving the
+  # same cross-shell sync at constant cost.
   # they have to be in this order to work correctly for sync the histroy across
   # the shells
   history -a
-  history -c
-  history -r
+  history -n
   # $HOME/.bash_history_rotater.sh # this is setup in cron to run every 15m */15 * * * * $HOME/.bash_history_rotater.sh
   #PS1="$(/usr/local/bin/powerline-go -shell bash -error $__ERRCODE -condensed -cwd-mode plain -numeric-exit-codes -shorten-gke-names -newline -modules aws,kube,git,cwd,venv,time,exit)"
 }
@@ -48,37 +53,66 @@ if [ -n "$REX_BIN_DIR" ]; then
     export PATH="$REX_BIN_DIR:$PATH"
 fi
 
-# eval a tool's shell init if the tool is installed: init_tool <cmd> <args...>
-function init_tool() {
-    command -v "$1" >/dev/null 2>&1 || return 0
-    eval -- "$(command "$@")"
+# Source a tool's shell init from a cache, regenerating it only when the tool's
+# binary or this file is newer than the cache. Every exec is slow here
+# (Defender scans each one), so running each init on every shell start adds up.
+# usage: cached_init [--filter <func>] <command> [args...]
+#   The cache is named after <command>. --filter pipes the init output through
+#   <func> before caching it.
+function cached_init() {
+    local - filter=cat bin
+    set -o pipefail  # fail if the init command fails, not just the filter
+    if [ "$1" = --filter ]; then filter=$2; shift 2; fi
+    bin=$(type -P "$1") || return 0
+    local dir="${XDG_CACHE_HOME:-$HOME/.cache}/shell-init"
+    local cache="$dir/$1.bash"
+    if [ ! -s "$cache" ] || [ "$bin" -nt "$cache" ] || [ "${BASH_SOURCE[0]}" -nt "$cache" ]; then
+        mkdir -p "$dir"
+        if "$@" 2>/dev/null | "$filter" >"$cache.$$" && [ -s "$cache.$$" ]; then
+            mv -f "$cache.$$" "$cache"
+        else
+            rm -f "$cache.$$"
+            return 0
+        fi
+    fi
+    . "$cache"
 }
 
 # mise first
-init_tool mise activate bash --shims
+cached_init mise activate bash --shims
 
 
 # brew
 export HOMEBREW_BUNDLE_FILE=$HOME/.config/brew/Brewfile
-init_tool brew shellenv
+cached_init brew shellenv
 
 # starship (after PROMPT_COMMAND is set, so starship wraps it instead of being overwritten)
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
 # Use bash's $EPOCHREALTIME (ms) instead of exec'ing `starship time` 2x per prompt;
 # process exec is slow here (Defender scans every exec).
-if command -v starship >/dev/null 2>&1; then
-  eval -- "$(starship init bash --print-full-init | sed -E \
+function _starship_init_filter() {
+  sed -E \
     -e 's#\$\([^()]*starship time\)#$(( ${EPOCHREALTIME//[!0-9]/} / 1000 ))#g' \
-    -e 's#"\$\(starship_preexec_ps0\)"#${EPOCHREALTIME//[!0-9]/}/1000#')"
-fi
+    -e 's#"\$\(starship_preexec_ps0\)"#${EPOCHREALTIME//[!0-9]/}/1000#'
+}
+cached_init --filter _starship_init_filter starship init bash --print-full-init
 
 # zoxide and wt
-init_tool zoxide init bash
-init_tool wt config shell init bash
+# --hook pwd: only run `zoxide add` when the directory changes
+cached_init zoxide init bash --hook pwd
+cached_init wt config shell init bash
 
-# ssh agent
-init_tool ssh-agent -s >/dev/null
-if [ -f ~/.ssh/id_rsa ]; then ssh-add ~/.ssh/id_rsa 2>/dev/null; fi
+# ssh agent (macOS and Linux): one agent shared by all shells on a fixed socket,
+# started only if no agent answers on it. ssh-add -l exits 2 when it cannot
+# reach an agent; a socket file left by a dead agent is removed so a new agent
+# can bind to it.
+# Never start an agent per shell: they never exit and pile up.
+export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+ssh-add -l >/dev/null 2>&1
+if [ $? -eq 2 ]; then
+  rm -f "$SSH_AUTH_SOCK"
+  ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null
+fi
 
 
 ## editor
