@@ -59,7 +59,13 @@ init_tool brew shellenv
 
 # starship (after PROMPT_COMMAND is set, so starship wraps it instead of being overwritten)
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
-init_tool starship init bash --print-full-init
+# Use bash's $EPOCHREALTIME (ms) instead of exec'ing `starship time` 2x per prompt;
+# process exec is slow here (Defender scans every exec).
+if command -v starship >/dev/null 2>&1; then
+  eval -- "$(starship init bash --print-full-init | sed -E \
+    -e 's#\$\([^()]*starship time\)#$(( ${EPOCHREALTIME//[!0-9]/} / 1000 ))#g' \
+    -e 's#"\$\(starship_preexec_ps0\)"#${EPOCHREALTIME//[!0-9]/}/1000#')"
+fi
 
 # zoxide and wt
 init_tool zoxide init bash
