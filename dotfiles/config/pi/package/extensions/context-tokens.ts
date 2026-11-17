@@ -6,6 +6,9 @@
  * Same position, colors (warning >70%, error >90%) and "(auto)" auto-compaction marker.
  *
  * Not reproduced: the "→ routed-model" suffix of virtual models (not exposed to extensions).
+ *
+ * Also draws the MCP segment from mcp-status.ts (mcp✓ / mcp⚠N / mcp✗N) just before
+ * "(provider) model", only when it fits with room to spare; otherwise it is left out.
  */
 
 import { homedir } from "node:os";
@@ -29,6 +32,10 @@ function formatCwd(cwd: string, home: string | undefined): string {
 	return rel === "" ? "~" : `~${sep}${rel}`;
 }
 
+// Published by mcp-status.ts.
+const MCP_KEY = Symbol.for("krafts.mcpStatus");
+const MCP_EVENT = "krafts:mcp-status";
+
 const sanitize = (t: string) => t.replace(/[\r\n\t]/g, " ").replace(/ +/g, " ").trim();
 
 export default function (pi: ExtensionAPI) {
@@ -36,8 +43,12 @@ export default function (pi: ExtensionAPI) {
 		if (!ctx.hasUI) return;
 		ctx.ui.setFooter((tui, theme, footerData) => {
 			const unsub = footerData.onBranchChange(() => tui.requestRender());
+			const unsubMcp = pi.events.on(MCP_EVENT, () => tui.requestRender());
 			return {
-				dispose: unsub,
+				dispose() {
+					unsub();
+					(unsubMcp as any)?.();
+				},
 				invalidate() {},
 				render(width: number): string[] {
 					const sm = ctx.sessionManager;
@@ -117,12 +128,35 @@ export default function (pi: ExtensionAPI) {
 					}
 					const minPad = 2;
 					let right = rightBase;
+					let providerDropped = false;
 					if (footerData.getAvailableProviderCount?.() > 1 && model) {
 						right = `(${model.provider}) ${rightBase}`;
-						if (leftW + minPad + visibleWidth(right) > width) right = rightBase;
+						if (leftW + minPad + visibleWidth(right) > width) {
+							right = rightBase;
+							providerDropped = true;
+						}
 					}
 					const rightW = visibleWidth(right);
+
+					// MCP segment: mcp✓ / mcp⚠N / mcp✗N.
+					const mcp = (globalThis as any)[MCP_KEY] as { auth: number; failed: number } | undefined;
+					let seg = "";
+					if (mcp) {
+						const bad = (mcp.auth ? theme.fg("warning", `\u26a0${mcp.auth}`) : "") + (mcp.failed ? theme.fg("error", `\u2717${mcp.failed}`) : "");
+						seg = theme.fg("dim", "mcp") + (bad || theme.fg("success", "\u2713"));
+					}
+					const segW = seg ? visibleWidth(seg) : 0;
+
 					let line: string;
+					// Lowest priority: only when everything else fits in full, including the provider.
+					if (seg && !providerDropped && leftW + minPad + segW + minPad + rightW <= width) {
+						const gap = width - leftW - segW - minPad - rightW;
+						const lines = [
+							truncateToWidth(theme.fg("dim", pwd), width, theme.fg("dim", "...")),
+							theme.fg("dim", left) + theme.fg("dim", " ".repeat(gap)) + seg + theme.fg("dim", " ".repeat(minPad) + right),
+						];
+						return withStatuses(lines, width);
+					}
 					if (leftW + minPad + rightW <= width) line = left + " ".repeat(width - leftW - rightW) + right;
 					else {
 						const avail = width - leftW - minPad;
@@ -132,21 +166,25 @@ export default function (pi: ExtensionAPI) {
 						} else line = left;
 					}
 
-					const lines = [
+					return withStatuses([
 						truncateToWidth(theme.fg("dim", pwd), width, theme.fg("dim", "...")),
 						theme.fg("dim", left) + theme.fg("dim", line.slice(left.length)),
-					];
-					const statuses = footerData.getExtensionStatuses();
-					if (statuses.size > 0) {
-						const s = Array.from(statuses.entries())
-							.sort(([a], [b]) => a.localeCompare(b))
-							.map(([, text]) => sanitize(text))
-							.join(" ");
-						lines.push(truncateToWidth(s, width, theme.fg("dim", "...")));
-					}
-					return lines;
+					], width);
 				},
 			};
+
+			// Extension statuses from ctx.ui.setStatus() on a third line, as built in.
+			function withStatuses(lines: string[], width: number): string[] {
+				const statuses = footerData.getExtensionStatuses();
+				if (statuses.size > 0) {
+					const s = Array.from(statuses.entries())
+						.sort(([a], [b]) => a.localeCompare(b))
+						.map(([, text]) => sanitize(text))
+						.join(" ");
+					lines.push(truncateToWidth(s, width, theme.fg("dim", "...")));
+				}
+				return lines;
+			}
 		});
 	};
 
