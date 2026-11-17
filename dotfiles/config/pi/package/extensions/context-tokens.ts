@@ -7,8 +7,8 @@
  *
  * Not reproduced: the "→ routed-model" suffix of virtual models (not exposed to extensions).
  *
- * Also draws the MCP segment from mcp-status.ts (mcp✓ / mcp⚠N / mcp✗N) just before
- * "(provider) model", only when it fits with room to spare; otherwise it is left out.
+ * Also draws the MCP segment from mcp-status.ts (mcp✓ / mcp⚠N / mcp✗N) centered between
+ * the stats and "(provider) model", only when it fits with room to spare; otherwise it is left out.
  */
 
 import { homedir } from "node:os";
@@ -150,10 +150,12 @@ export default function (pi: ExtensionAPI) {
 					let line: string;
 					// Lowest priority: only when everything else fits in full, including the provider.
 					if (seg && !providerDropped && leftW + minPad + segW + minPad + rightW <= width) {
-						const gap = width - leftW - segW - minPad - rightW;
+						// Centered in the gap between the stats and "(provider) model".
+						const gap = width - leftW - segW - rightW;
+						const padL = Math.floor(gap / 2);
 						const lines = [
 							truncateToWidth(theme.fg("dim", pwd), width, theme.fg("dim", "...")),
-							theme.fg("dim", left) + theme.fg("dim", " ".repeat(gap)) + seg + theme.fg("dim", " ".repeat(minPad) + right),
+							theme.fg("dim", left + " ".repeat(padL)) + seg + theme.fg("dim", " ".repeat(gap - padL) + right),
 						];
 						return withStatuses(lines, width);
 					}
