@@ -1,0 +1,10 @@
+{
+  "name": "krafts-pi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal pi extensions and themes. Resources are discovered from extensions/, themes/, skills/ and prompts/.",
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*"
+  }
+}
