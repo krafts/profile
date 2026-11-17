@@ -1,0 +1,12 @@
+{
+  "$schema": "https://pi.dev/schemas/settings.schema.json",
+  "packages": [
+    "npm:pi-opencode-theme",
+    "../../workspace/krafts/profile/dotfiles/config/pi/package"
+  ],
+  "theme": "opencode",
+  "outputPad": 0,
+  "markdown": {
+    "codeBlockIndent": ""
+  }
+}

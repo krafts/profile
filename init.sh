@@ -18,6 +18,28 @@ function link_file() {
   fi
 }
 
+## Deep-merge a shared JSON file from the repo into a local file that may hold
+## machine-specific or private keys. Keys from $src win; keys only in $dst are kept.
+## $dst stays a regular file (never a symlink) so private keys never reach the repo.
+function merge_json() {
+  local src=$1
+  local dst=$2
+  if ! command -v jq >/dev/null; then
+    echo "Skipping $dst: jq not installed (brew bundle --file ~/.config/brew/Brewfile)"
+    return
+  fi
+  mkdir -p "$(dirname "$dst")"
+  [ -L "$dst" ] && rm "$dst"
+  local base='{}'
+  if [ -s "$dst" ]; then
+    cp "$dst" "$dst.bak"
+    base=$(cat "$dst")
+  fi
+  echo "Merging $src into $dst"
+  jq -s '.[0] * .[1]' <(printf '%s' "$base") "$src" > "$dst.tmp"
+  mv "$dst.tmp" "$dst"
+}
+
 function unlink_file() {
   local dst=$1
   if [ -L $dst ]; then
@@ -47,6 +69,8 @@ link_file $SCRIPT_DIR/dotfiles/config/alacritty/alacritty.toml $HOME/.config/ala
 link_file $SCRIPT_DIR/dotfiles/config/brew/Brewfile $HOME/.config/brew/Brewfile
 link_file $SCRIPT_DIR/dotfiles/config/starship/starship.toml $HOME/.config/starship/starship.toml
 link_file $SCRIPT_DIR/dotfiles/config/k9s/config.yaml $HOME/.config/k9s/config.yaml
+link_file $SCRIPT_DIR/dotfiles/config/pi/keybindings.json $HOME/.pi/agent/keybindings.json
+merge_json $SCRIPT_DIR/dotfiles/config/pi/settings.json $HOME/.pi/agent/settings.json
 link_file $SCRIPT_DIR/dotfiles/gitignore_global $HOME/.gitignore_global
 link_file $SCRIPT_DIR/dotfiles/zshrc $HOME/.zshrc
 link_file $SCRIPT_DIR/dotfiles/zprofile $HOME/.zprofile
