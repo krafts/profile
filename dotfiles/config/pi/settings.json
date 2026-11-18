@@ -2,7 +2,8 @@
   "$schema": "https://pi.dev/schemas/settings.schema.json",
   "packages": [
     "../../workspace/krafts/profile/dotfiles/config/pi/appearance",
-    "../../workspace/krafts/profile/dotfiles/config/pi/package"
+    "../../workspace/krafts/profile/dotfiles/config/pi/package",
+    "npm:@narumitw/pi-worktree@0.51.10"
   ],
   "theme": "opencode",
   "outputPad": 1,
