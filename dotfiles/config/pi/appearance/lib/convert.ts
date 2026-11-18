@@ -7,8 +7,10 @@
  * palette index, or "none" / "transparent" (the terminal's default). This mirrors opencode's
  * resolveV1 (packages/theme/src/tui/v1-migrate.ts).
  *
- * pi-only addition: an optional "cursor" role, the color of the input box's block cursor
- * (default: success).
+ * pi-only additions, both optional:
+ *   cursor        the input box's block cursor (default: success)
+ *   commandText   commands and tool names in tool boxes (default: 70% of the way from text to
+ *                 textMuted, so they stand out from tool output without being as bright as text)
  *
  * Output: one pi theme per appearance the palette defines. A palette with { dark, light } values
  * gives `<name>` (dark) and `<name>-light`; a palette with plain values gives `<name>` only.
@@ -63,7 +65,7 @@ const PI_COLORS: Record<string, string | number> = {
 	toolPendingBg: "backgroundPanel",
 	toolSuccessBg: "backgroundPanel",
 	toolErrorBg: "backgroundPanel",
-	toolTitle: "text",
+	toolTitle: "commandText",
 	toolOutput: "textMuted",
 	mdHeading: "markdownHeading",
 	mdLink: "markdownLinkText",
@@ -147,6 +149,14 @@ function modes(palette: any): Mode[] {
 	return [luminance(resolver(palette, "dark")("background")) > 0.5 ? "light" : "dark"];
 }
 
+/** a * t + b * (1 - t) for two hex colors; otherwise `a`. */
+function mix(a: Color, b: Color, t: number): Color {
+	if (typeof a !== "string" || typeof b !== "string" || !a.startsWith("#") || !b.startsWith("#")) return a;
+	const rgb = (c: string) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+	const [x, y] = [rgb(a), rgb(b)];
+	return `#${x.map((v, i) => Math.round(v * t + y[i] * (1 - t)).toString(16).padStart(2, "0")).join("")}`;
+}
+
 function luminance(color: Color): number {
 	if (typeof color !== "string" || !color.startsWith("#")) return 0;
 	const [r, g, b] = [1, 3, 5].map((i) => parseInt(color.slice(i, i + 2), 16) / 255);
@@ -168,6 +178,7 @@ export function convertPalette(palette: any, name: string): PiTheme[] {
 		for (const [r, fallback] of Object.entries(OPTIONAL_ROLES)) {
 			vars[r] = r in palette.theme ? role(r) : vars[fallback];
 		}
+		vars.commandText = "commandText" in palette.theme ? role("commandText") : mix(vars.text, vars.textMuted, 0.3);
 		return {
 			$schema: "https://pi.dev/schemas/theme.schema.json",
 			name: all.length > 1 && mode === "light" ? `${name}-light` : name,

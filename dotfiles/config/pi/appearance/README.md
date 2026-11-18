@@ -51,13 +51,17 @@ palette index, or `"none"` (the terminal's default). Every role in opencode's v1
 required (see `REQUIRED_ROLES` in `lib/convert.ts`); `selectedListItemText` and
 `backgroundMenu` are optional. opencode's newer v2 format is not supported.
 
-pi-only role: `cursor`, the input box's block cursor (default: `success`).
+pi-only roles, both optional:
+
+- `cursor`: the input box's block cursor (default: `success`).
+- `commandText`: commands and tool names in tool boxes (default: 70% of the way from `text`
+  to `textMuted`, so they stay apart from the output without being as bright as text).
 
 ## How palette roles are used
 
 - **pi theme colors**: `lib/convert.ts` (`PI_COLORS`) maps pi's tokens onto roles. Like
-  opencode, every tool panel and your messages use `backgroundPanel`, and tool output is
-  `textMuted`.
+  opencode, every tool panel and your messages use `backgroundPanel`, tool output is
+  `textMuted`, and commands are `commandText` (bold).
 - **Extensions**: the generated theme keeps every role in `vars`; the extensions read them from
   the active theme, so they follow theme switches. With a theme that does not come from a
   palette, the input box and message colors fall back to pi's own look.

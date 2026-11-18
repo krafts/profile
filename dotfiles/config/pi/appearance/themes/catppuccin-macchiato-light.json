@@ -55,7 +55,8 @@
 		"syntaxPunctuation": "#cad3f5",
 		"selectedListItemText": "#24273a",
 		"backgroundMenu": "#181926",
-		"cursor": "#a6da95"
+		"cursor": "#a6da95",
+		"commandText": "#a4abca"
 	},
 	"colors": {
 		"accent": "primary",
@@ -78,7 +79,7 @@
 		"toolPendingBg": "backgroundPanel",
 		"toolSuccessBg": "backgroundPanel",
 		"toolErrorBg": "backgroundPanel",
-		"toolTitle": "text",
+		"toolTitle": "commandText",
 		"toolOutput": "textMuted",
 		"mdHeading": "markdownHeading",
 		"mdLink": "markdownLinkText",
