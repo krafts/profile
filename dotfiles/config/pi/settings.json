@@ -5,7 +5,7 @@
     "../../workspace/krafts/profile/dotfiles/config/pi/package"
   ],
   "theme": "opencode",
-  "outputPad": 0,
+  "outputPad": 1,
   "markdown": {
     "codeBlockIndent": ""
   }
