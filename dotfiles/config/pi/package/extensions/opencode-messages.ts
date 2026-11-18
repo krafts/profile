@@ -201,7 +201,12 @@ function install() {
 	umProto.render = function (width: number) {
 		if (width < 4) return orig.userRender.call(this, width);
 		const prefix = BG(PANEL) + FG(BAR) + "\u258e" + FG_RESET + " ";
-		return orig.userRender.call(this, width - 2).map((line: string) => prefix + line);
+		// pi starts the first and last rows with OSC 133 prompt marks. Keep them at column 0, before
+		// the bar: a terminal that sees `133;A` mid-line starts a fresh line, which broke the top row.
+		return orig.userRender.call(this, width - 2).map((line: string) => {
+			const marks = /^(?:\x1b\]133;[^\x07\x1b]*(?:\x07|\x1b\\))*/.exec(line)![0];
+			return marks + prefix + line.slice(marks.length);
+		});
 	};
 }
 

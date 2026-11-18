@@ -2,7 +2,8 @@
  * opencode-style input box (design: ~/pi-design/DESIGN.md, mockup: final-v2.png).
  *
  * - The editor is drawn as an opencode panel: #1e1e1e background, a blue left bar, no top/bottom
- *   rules, a padding row above the text and a status row at the bottom.
+ *   rules, a padding row above the text and a status row right below it (empty while idle, so it
+ *   pads the text like the top row). With autocomplete open, the status row goes below the list.
  * - While the agent works, the status row shows the working indicator and the Esc hint:
  *     snake (default): 8 slots, a bright head with a fading 3-block tail sweeping back and forth
  *     pi:              pi's braille spinner and "Working..."
@@ -159,9 +160,12 @@ export default function (pi: ExtensionAPI) {
 			const text = lines.slice(1, 1 + n);
 			const autocomplete = lines.slice(2 + n);
 			// Row order keeps pi's mouse mapping: text at rows 1..n, autocomplete from row n+2.
+			// Row n+1 (pi's bottom rule) is the status row, which also pads the text like the top row.
+			// With autocomplete open, the status row moves below the list instead.
+			const top = [this.row("", width), ...text.map((l) => this.row(l, width))];
+			if (autocomplete.length === 0) return [...top, this.row(statusRow(), width)];
 			return [
-				this.row("", width),
-				...text.map((l) => this.row(l, width)),
+				...top,
 				this.row("", width),
 				...autocomplete.map((l) => this.row(l, width)),
 				this.row(statusRow(), width),
