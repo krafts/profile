@@ -193,13 +193,18 @@ function install() {
 	}
 
 	// ---- your messages: blue bar on the left ----
+	// Text starts at column TEXT_COL, like the input box (bar + one space). pi already pads the message
+	// by outputPad, so the prefix only adds the bar and whatever padding is still missing.
+	const TEXT_COL = 2;
 	umProto.render = function (width: number) {
 		const r = roles();
 		if (!r || width < 4) return orig.userRender.call(this, width);
-		const prefix = BG(r.backgroundPanel) + FG(r.secondary) + "\u258e" + FG_RESET + " ";
+		const pad = Number.isFinite(this.outputPad) ? Math.max(0, this.outputPad) : 1;
+		const gap = Math.max(0, TEXT_COL - 1 - pad);
+		const prefix = BG(r.backgroundPanel) + FG(r.secondary) + "\u258e" + FG_RESET + " ".repeat(gap);
 		// pi starts the first and last rows with OSC 133 prompt marks. Keep them at column 0, before
 		// the bar: a terminal that sees `133;A` mid-line starts a fresh line, which broke the top row.
-		return orig.userRender.call(this, width - 2).map((line: string) => {
+		return orig.userRender.call(this, width - 1 - gap).map((line: string) => {
 			const marks = /^(?:\x1b\]133;[^\x07\x1b]*(?:\x07|\x1b\\))*/.exec(line)![0];
 			return marks + prefix + line.slice(marks.length);
 		});
