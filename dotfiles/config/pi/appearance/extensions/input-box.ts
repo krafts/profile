@@ -10,7 +10,7 @@
  *     pi:              pi's braille spinner and "Working..."
  *   followed by "esc interrupt", or "esc again to interrupt" (warning color) after a first Esc
  *   (state published by double-esc-interrupt.ts).
- * - pi's own working row above the editor is hidden. The footer is unchanged (context-tokens.ts).
+ * - pi's own working row above the editor is hidden. The footer is drawn by footer.ts.
  * - `/working-style [snake|pi]` switches the indicator; the choice is saved to
  *   ~/.pi/agent/appearance.json.
  *

@@ -1,5 +1,5 @@
 /**
- * Context Tokens footer.
+ * Footer with context tokens.
  *
  * Replaces pi's built-in footer with a copy of it (pi 1.5.2 FooterComponent) whose only
  * change is the context segment: "7.1%/1.0M (auto)" becomes "7.1% 71k/1.0M (auto)".
@@ -7,7 +7,7 @@
  *
  * Not reproduced: the "→ routed-model" suffix of virtual models (not exposed to extensions).
  *
- * Also draws the MCP segment from mcp-status.ts (mcp✓ / mcp⚠N / mcp✗N) centered between
+ * Also draws the MCP segment from package/extensions/mcp-status.ts (mcp✓ / mcp⚠N / mcp✗N) centered between
  * the stats and "(provider) model", only when it fits with room to spare; otherwise it is left out.
  */
 

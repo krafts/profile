@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "pi's look: themes generated from opencode-format palettes, an opencode-style input box and messages, and diff-so-fancy edit diffs.",
+  "description": "pi's look: themes generated from opencode-format palettes, an opencode-style input box and messages, a footer with context tokens, and diff-so-fancy edit diffs.",
   "keywords": ["pi-package"],
   "pi": {
     "extensions": ["./extensions/*.ts"],

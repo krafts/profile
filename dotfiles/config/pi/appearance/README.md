@@ -1,7 +1,8 @@
 # appearance
 
 pi's look, as a pi package: color themes generated from opencode-format palettes, an
-opencode-style input box and messages, and diff-so-fancy edit diffs.
+opencode-style input box and messages, a footer with context tokens, and diff-so-fancy edit
+diffs.
 
 ```
 appearance/
@@ -13,6 +14,7 @@ appearance/
     ├── themes.ts         regenerates themes/ from palettes/ on startup and /reload
     ├── input-box.ts      opencode-style input box with the working indicator
     ├── messages.ts       markdown colors, the bar on your messages, text-only selection
+    ├── footer.ts         pi's footer with context tokens and the MCP status from package/
     └── diff-so-fancy.ts  edit diffs in diff-so-fancy's colors
 ```
 

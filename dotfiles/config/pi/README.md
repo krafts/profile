@@ -7,7 +7,7 @@ configuration from `~/.pi/agent/`. `init.sh` connects that directory to the file
 dotfiles/config/pi/
 ├── settings.json        ← public: merged into ~/.pi/agent/settings.json by init.sh
 ├── keybindings.json     ← symlinked to ~/.pi/agent/keybindings.json
-├── appearance/          ← pi's look: palettes → themes, input box, messages, diffs
+├── appearance/          ← pi's look: palettes → themes, input box, messages, footer, diffs
 │                           (a pi package; see appearance/README.md)
 └── package/             ← other extensions (loaded as a pi package)
     ├── package.json
@@ -42,8 +42,8 @@ in the package. See `docs/keybindings.md` in the pi installation for the format.
 ## appearance/
 
 A second local pi package, listed before `package/` in `settings.json`. It holds the
-color themes (generated from `palettes/`) and the extensions that draw the input box, messages
-and diffs. See `appearance/README.md`.
+color themes (generated from `palettes/`) and the extensions that draw the input box, messages,
+footer and diffs. See `appearance/README.md`.
 
 ## package/
 

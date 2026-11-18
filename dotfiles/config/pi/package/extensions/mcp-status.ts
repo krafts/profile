@@ -2,7 +2,7 @@
  * MCP status for the footer.
  *
  * Runs `pi mcp list --json` in the background at session start and every 10 minutes, and
- * publishes a compact segment that context-tokens.ts draws in the footer gap:
+ * publishes a compact segment that appearance/extensions/footer.ts draws in the footer gap:
  *   mcp✓    all enabled servers connected
  *   mcp⚠N   N servers need sign-in (fix: /mcp login <name>)
  *   mcp✗N   N servers failed, disconnected, or misconfigured (details: /mcp)
