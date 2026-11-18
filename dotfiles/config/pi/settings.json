@@ -6,6 +6,7 @@
   ],
   "theme": "opencode",
   "outputPad": 1,
+  "editorPaddingX": 0,
   "markdown": {
     "codeBlockIndent": ""
   }
