@@ -2,9 +2,10 @@
  * opencode-style input box.
  *
  * - The editor is drawn as an opencode panel: backgroundElement, a secondary-colored left bar, no top/bottom
- *   rules, a padding row above the text and a status row right below it (empty while idle, so it
- *   pads the text like the top row). With autocomplete open, the status row goes below the list.
- * - While the agent works, the status row shows the working indicator and the Esc hint:
+ *   rules, and one padding row above and below the text (autocomplete goes between the text and the
+ *   bottom padding).
+ * - While the agent works, a status line right above the box, outside it and aligned with its
+ *   text, shows the working indicator and the Esc hint (the line is not there while idle):
  *     snake (default): 8 slots, a bright head with a fading 3-block tail sweeping back and forth
  *     pi:              pi's braille spinner and "Working..."
  *   followed by "esc interrupt", or "esc again to interrupt" (warning color) after a first Esc
@@ -14,8 +15,8 @@
  *   ~/.pi/agent/appearance.json.
  *
  * Colors are palette roles of the active theme (../lib/palette.ts): backgroundElement (panel),
- * secondary (bar, snake), text, textMuted, borderSubtle (unlit snake slots), warning, primary
- * (spinner) and cursor (block cursor). With a theme that is not made from a palette, pi's own
+ * secondary (bar, snake; its tail fades toward background), text, textMuted, borderSubtle (unlit
+ * snake slots), warning, primary (spinner) and cursor (block cursor). With a theme that is not made from a palette, pi's own
  * editor and working row are used.
  */
 
@@ -67,7 +68,7 @@ function snake(frame: number, r: Roles): string {
 		const k = (head - i) * dir; // distance behind the head
 		s +=
 			k >= 0 && k < FADE.length
-				? fg(mix(r.secondary, r.backgroundElement, FADE[k])) + "\u25a0"
+				? fg(mix(r.secondary, r.background, FADE[k])) + "\u25a0"
 				: fg(r.borderSubtle) + "\u2b1d";
 	}
 	return s;
@@ -129,6 +130,8 @@ export default function (pi: ExtensionAPI) {
 	};
 
 	class OpencodeBoxEditor extends CustomEditor {
+		private statusRows = 0; // rows above the box (the status line), for mouse mapping
+
 		constructor(tui: TUI, theme: EditorTheme, keybindings: KeybindingsManager) {
 			super(tui, theme, keybindings, { paddingX: 0 });
 			activeTui = tui;
@@ -161,23 +164,32 @@ export default function (pi: ExtensionAPI) {
 			const n = (this as any).renderedVisibleLineCount ?? Math.max(1, lines.length - 2);
 			const text = lines.slice(1, 1 + n);
 			const autocomplete = lines.slice(2 + n);
-			// Row order keeps pi's mouse mapping: text at rows 1..n, autocomplete from row n+2.
-			// Row n+1 (pi's bottom rule) is the status row, which also pads the text like the top row.
-			// With autocomplete open, the status row moves below the list instead.
-			const top = [this.row(r, "", width), ...text.map((l) => this.row(r, l, width))];
-			if (autocomplete.length === 0) return [...top, this.row(r, statusRow(r), width)];
-			return [
-				...top,
+			// Box rows keep pi's mouse mapping: text at rows 1..n, autocomplete from row n+2. Rows 0
+			// and n+1 (pi's top and bottom rules) are the padding; a list gets padding below it too.
+			const box = [
+				this.row(r, "", width),
+				...text.map((l) => this.row(r, l, width)),
 				this.row(r, "", width),
 				...autocomplete.map((l) => this.row(r, l, width)),
-				this.row(r, statusRow(r), width),
+				...(autocomplete.length ? [this.row(r, "", width)] : []),
 			];
+			// The status line sits outside the box, on the terminal background, aligned with the text.
+			const status = working ? [truncateToWidth(" ".repeat(LEFT) + statusRow(r), width, "") + RESET] : [];
+			this.statusRows = status.length;
+			return [...status, ...box];
 		}
 
 		handleMouse(event: any) {
 			if (!boxed) return super.handleMouse?.(event);
-			// Text and autocomplete are shifted right by the bar and its padding.
-			return super.handleMouse?.({ ...event, x: event.x - LEFT, width: Math.max(1, event.width - LEFT - RIGHT) });
+			// The status line is above the box; text and autocomplete are shifted right by the bar.
+			const y = event.y - this.statusRows;
+			if (y < 0) return undefined;
+			return super.handleMouse?.({
+				...event,
+				y,
+				x: event.x - LEFT,
+				width: Math.max(1, event.width - LEFT - RIGHT),
+			});
 		}
 	}
 
@@ -191,7 +203,7 @@ export default function (pi: ExtensionAPI) {
 	});
 
 	pi.registerCommand("working-style", {
-		description: "Working indicator in the input box: snake (default) or pi",
+		description: "Working indicator above the input box: snake (default) or pi",
 		handler: async (args, ctx) => {
 			const want = args.trim();
 			style = want === "pi" || want === "snake" ? want : style === "snake" ? "pi" : "snake";
