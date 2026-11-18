@@ -12,7 +12,8 @@
  * - `/working-style [snake|pi]` switches the indicator; the choice is saved to
  *   ~/.pi/agent/opencode-box.json.
  *
- * Colors are exact 24-bit values matching the opencode screenshot, not theme keys.
+ * Colors are exact 24-bit values sampled from the opencode screenshot, not theme keys
+ * (they match the opencode theme in ../themes/opencode.json).
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -21,15 +22,15 @@ import { join } from "node:path";
 import { CustomEditor, type ExtensionAPI, type KeybindingsManager } from "@earendil-works/pi-coding-agent";
 import { type EditorTheme, type TUI, truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 
-// ---- colors (from the mockups) ----
+// ---- colors (sampled from the opencode screenshot; snake/orange/peach not in it, from the mockups) ----
 const PANEL = "#1e1e1e";
 const BLUE = "#5c9cf5";
-const TEXT = "#d4d4d4";
-const MUTED = "#808080";
+const TEXT = "#e8f1f7";
+const MUTED = "#7a8791";
 const SLOT = "#3c3c3c";
 const ORANGE = "#f5a742";
 const PEACH = "#fab283";
-const CURSOR = "#7fd88f";
+const CURSOR = "#6ef2b8";
 
 const rgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 const fg = (hex: string) => `\x1b[38;2;${rgb(hex).join(";")}m`;
