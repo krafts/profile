@@ -12,7 +12,7 @@
  * - `/working-style [snake|pi]` switches the indicator; the choice is saved to
  *   ~/.pi/agent/opencode-box.json.
  *
- * Colors are exact 24-bit values sampled from the opencode screenshot, not theme keys
+ * Colors are exact 24-bit values from opencode's own theme file, not theme keys
  * (they match the opencode theme in ../themes/opencode.json).
  */
 
@@ -22,15 +22,15 @@ import { join } from "node:path";
 import { CustomEditor, type ExtensionAPI, type KeybindingsManager } from "@earendil-works/pi-coding-agent";
 import { type EditorTheme, type TUI, truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 
-// ---- colors (sampled from the opencode screenshot; snake/orange/peach not in it, from the mockups) ----
-const PANEL = "#1e1e1e";
-const BLUE = "#5c9cf5";
-const TEXT = "#e8f1f7";
-const MUTED = "#7a8791";
-const SLOT = "#3c3c3c";
-const ORANGE = "#f5a742";
-const PEACH = "#fab283";
-const CURSOR = "#6ef2b8";
+// ---- colors: opencode's theme file (packages/tui/src/theme/assets/opencode.json, dark) ----
+const PANEL = "#1e1e1e"; // backgroundElement
+const BLUE = "#5c9cf5"; // secondary
+const TEXT = "#eeeeee"; // text
+const MUTED = "#808080"; // textMuted
+const SLOT = "#3c3c3c"; // borderSubtle
+const ORANGE = "#f5a742"; // warning
+const PEACH = "#fab283"; // primary
+const CURSOR = "#6ef2b8"; // not in opencode's theme; sampled from the opencode screenshot
 
 const rgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 const fg = (hex: string) => `\x1b[38;2;${rgb(hex).join(";")}m`;
