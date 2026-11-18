@@ -1,20 +1,22 @@
 /**
- * opencode-style input box (design: ~/pi-design/DESIGN.md, mockup: final-v2.png).
+ * opencode-style input box.
  *
- * - The editor is drawn as an opencode panel: #1e1e1e background, a blue left bar, no top/bottom
+ * - The editor is drawn as an opencode panel: backgroundElement, a secondary-colored left bar, no top/bottom
  *   rules, a padding row above the text and a status row right below it (empty while idle, so it
  *   pads the text like the top row). With autocomplete open, the status row goes below the list.
  * - While the agent works, the status row shows the working indicator and the Esc hint:
  *     snake (default): 8 slots, a bright head with a fading 3-block tail sweeping back and forth
  *     pi:              pi's braille spinner and "Working..."
- *   followed by "esc interrupt", or "esc again to interrupt" (orange) after a first Esc
+ *   followed by "esc interrupt", or "esc again to interrupt" (warning color) after a first Esc
  *   (state published by double-esc-interrupt.ts).
  * - pi's own working row above the editor is hidden. The footer is unchanged (context-tokens.ts).
  * - `/working-style [snake|pi]` switches the indicator; the choice is saved to
- *   ~/.pi/agent/opencode-box.json.
+ *   ~/.pi/agent/appearance.json.
  *
- * Colors are exact 24-bit values from opencode's own theme file, not theme keys
- * (they match the opencode theme in ../themes/opencode.json).
+ * Colors are palette roles of the active theme (../lib/palette.ts): backgroundElement (panel),
+ * secondary (bar, snake), text, textMuted, borderSubtle (unlit snake slots), warning, primary
+ * (spinner) and cursor (block cursor). With a theme that is not made from a palette, pi's own
+ * editor and working row are used.
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -22,26 +24,10 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { CustomEditor, type ExtensionAPI, type KeybindingsManager } from "@earendil-works/pi-coding-agent";
 import { type EditorTheme, type TUI, truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
+import { bg, fg, mix, type Roles, roles, trackUi } from "../lib/palette.ts";
 
-// ---- colors: opencode's theme file (packages/tui/src/theme/assets/opencode.json, dark) ----
-const PANEL = "#1e1e1e"; // backgroundElement
-const BLUE = "#5c9cf5"; // secondary
-const TEXT = "#eeeeee"; // text
-const MUTED = "#808080"; // textMuted
-const SLOT = "#3c3c3c"; // borderSubtle
-const ORANGE = "#f5a742"; // warning
-const PEACH = "#fab283"; // primary
-const CURSOR = "#6ef2b8"; // not in opencode's theme; sampled from the opencode screenshot
-
-const rgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-const fg = (hex: string) => `\x1b[38;2;${rgb(hex).join(";")}m`;
-const bg = (hex: string) => `\x1b[48;2;${rgb(hex).join(";")}m`;
-const mix = (a: string, b: string, t: number) => {
-	const [x, y] = [rgb(a), rgb(b)];
-	return `#${x.map((v, i) => Math.round(v * t + y[i] * (1 - t)).toString(16).padStart(2, "0")).join("")}`;
-};
 const RESET = "\x1b[0m";
-const BOX = bg(PANEL) + fg(TEXT); // base style inside the box
+const boxStyle = (r: Roles) => bg(r.backgroundElement) + fg(r.text); // base style inside the box
 
 // ---- layout ----
 const BAR = "\u258e"; // ▎ thin left bar
@@ -65,7 +51,7 @@ const FRAME_MS = 80;
 const ESC_KEY = Symbol.for("krafts.escArmedUntil"); // set by double-esc-interrupt.ts
 
 type Style = "snake" | "pi";
-const CONFIG = join(process.env.PI_CODING_AGENT_DIR || join(homedir(), ".pi", "agent"), "opencode-box.json");
+const CONFIG = join(process.env.PI_CODING_AGENT_DIR || join(homedir(), ".pi", "agent"), "appearance.json");
 const loadStyle = (): Style => {
 	try {
 		return JSON.parse(readFileSync(CONFIG, "utf8")).working === "pi" ? "pi" : "snake";
@@ -74,12 +60,15 @@ const loadStyle = (): Style => {
 	}
 };
 
-function snake(frame: number): string {
+function snake(frame: number, r: Roles): string {
 	const [head, dir] = SNAKE_FRAMES[frame % SNAKE_FRAMES.length];
 	let s = "";
 	for (let i = 0; i < SLOTS; i++) {
 		const k = (head - i) * dir; // distance behind the head
-		s += k >= 0 && k < FADE.length ? fg(mix(BLUE, PANEL, FADE[k])) + "\u25a0" : fg(SLOT) + "\u2b1d";
+		s +=
+			k >= 0 && k < FADE.length
+				? fg(mix(r.secondary, r.backgroundElement, FADE[k])) + "\u25a0"
+				: fg(r.borderSubtle) + "\u2b1d";
 	}
 	return s;
 }
@@ -119,15 +108,24 @@ export default function (pi: ExtensionAPI) {
 		activeTui = undefined;
 	});
 
-	const statusRow = (): string => {
+	const statusRow = (r: Roles): string => {
 		if (!working) return "";
 		const armed = Date.now() < ((globalThis as any)[ESC_KEY] ?? 0);
-		const hint = fg(TEXT) + "esc" + (armed ? fg(ORANGE) + " again to interrupt" : fg(MUTED) + " interrupt");
+		const hint = fg(r.text) + "esc" + (armed ? fg(r.warning) + " again to interrupt" : fg(r.textMuted) + " interrupt");
 		const indicator =
 			style === "snake"
-				? snake(frame)
-				: fg(PEACH) + SPINNER[frame % SPINNER.length] + " " + fg(MUTED) + "Working...";
+				? snake(frame, r)
+				: fg(r.primary) + SPINNER[frame % SPINNER.length] + " " + fg(r.textMuted) + "Working...";
 		return indicator + "  " + hint;
+	};
+
+	// pi's working row is hidden while the box shows its own status row (palette themes only).
+	let ui: { setWorkingVisible(visible: boolean): void } | undefined;
+	let boxed: boolean | undefined;
+	const setBoxed = (on: boolean) => {
+		if (on === boxed) return;
+		boxed = on;
+		ui?.setWorkingVisible(!on);
 	};
 
 	class OpencodeBoxEditor extends CustomEditor {
@@ -137,21 +135,25 @@ export default function (pi: ExtensionAPI) {
 		}
 
 		/** One full-width box row: bar, padding, content on the panel background. */
-		private row(content: string, width: number): string {
+		private row(r: Roles, content: string, width: number): string {
+			const BOX = boxStyle(r);
 			const inner = Math.max(1, width - LEFT - RIGHT);
 			// Re-apply the panel background after any reset inside the content.
 			let body = content.replace(/\x1b\[0?m|\x1b\[49m/g, (m) => m + BOX);
 			// Green block cursor: reverse video turns this fg into the block color.
 			body = body
-				.replaceAll(FAKE_CURSOR_START, FAKE_CURSOR_START + bg(PANEL) + fg(CURSOR))
+				.replaceAll(FAKE_CURSOR_START, FAKE_CURSOR_START + bg(r.backgroundElement) + fg(r.cursor))
 				.replaceAll(FAKE_CURSOR_END, BOX + FAKE_CURSOR_END);
 			const w = visibleWidth(body);
 			if (w > inner) body = truncateToWidth(body, inner, "");
 			const pad = " ".repeat(Math.max(0, inner - visibleWidth(body)));
-			return bg(PANEL) + fg(BLUE) + BAR + BOX + " " + body + BOX + pad + " " + RESET;
+			return bg(r.backgroundElement) + fg(r.secondary) + BAR + BOX + " " + body + BOX + pad + " " + RESET;
 		}
 
 		render(width: number): string[] {
+			const r = roles();
+			setBoxed(!!r);
+			if (!r) return super.render(width); // pi's own editor look
 			if (width < LEFT + RIGHT + 2) return super.render(width);
 			const inner = width - LEFT - RIGHT;
 			const lines = super.render(inner);
@@ -162,25 +164,29 @@ export default function (pi: ExtensionAPI) {
 			// Row order keeps pi's mouse mapping: text at rows 1..n, autocomplete from row n+2.
 			// Row n+1 (pi's bottom rule) is the status row, which also pads the text like the top row.
 			// With autocomplete open, the status row moves below the list instead.
-			const top = [this.row("", width), ...text.map((l) => this.row(l, width))];
-			if (autocomplete.length === 0) return [...top, this.row(statusRow(), width)];
+			const top = [this.row(r, "", width), ...text.map((l) => this.row(r, l, width))];
+			if (autocomplete.length === 0) return [...top, this.row(r, statusRow(r), width)];
 			return [
 				...top,
-				this.row("", width),
-				...autocomplete.map((l) => this.row(l, width)),
-				this.row(statusRow(), width),
+				this.row(r, "", width),
+				...autocomplete.map((l) => this.row(r, l, width)),
+				this.row(r, statusRow(r), width),
 			];
 		}
 
 		handleMouse(event: any) {
+			if (!boxed) return super.handleMouse?.(event);
 			// Text and autocomplete are shifted right by the bar and its padding.
 			return super.handleMouse?.({ ...event, x: event.x - LEFT, width: Math.max(1, event.width - LEFT - RIGHT) });
 		}
 	}
 
 	pi.on("session_start", async (_e, ctx) => {
+		trackUi(ctx.ui);
 		if (!ctx.hasUI) return;
-		ctx.ui.setWorkingVisible(false); // the box's status row replaces pi's working row
+		ui = ctx.ui;
+		boxed = undefined;
+		setBoxed(!!roles());
 		ctx.ui.setEditorComponent((tui, theme, keybindings) => new OpencodeBoxEditor(tui, theme, keybindings));
 	});
 

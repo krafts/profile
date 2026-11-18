@@ -1,0 +1,16 @@
+{
+  "name": "krafts-pi-appearance",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "pi's look: themes generated from opencode-format palettes, an opencode-style input box and messages, and diff-so-fancy edit diffs.",
+  "keywords": ["pi-package"],
+  "pi": {
+    "extensions": ["./extensions/*.ts"],
+    "themes": ["./themes/*.json"]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*"
+  }
+}

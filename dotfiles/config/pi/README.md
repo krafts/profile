@@ -7,7 +7,9 @@ configuration from `~/.pi/agent/`. `init.sh` connects that directory to the file
 dotfiles/config/pi/
 ├── settings.json        ← public: merged into ~/.pi/agent/settings.json by init.sh
 ├── keybindings.json     ← symlinked to ~/.pi/agent/keybindings.json
-└── package/             ← extensions, themes (loaded as a pi package)
+├── appearance/          ← pi's look: palettes → themes, input box, messages, diffs
+│                           (a pi package; see appearance/README.md)
+└── package/             ← other extensions and themes (loaded as a pi package)
     ├── package.json
     ├── extensions/
     └── themes/
@@ -37,6 +39,12 @@ add any package installed with `pi install` here too.
 Symlinked, so edits here apply directly. Run `/reload` in pi afterwards. Run `/hotkeys`
 to list action names. pi only reads keybindings from `~/.pi/agent/`, so they can't go
 in the package. See `docs/keybindings.md` in the pi installation for the format.
+
+## appearance/
+
+A second local pi package, listed before `package/` in `settings.json`. It holds the
+color themes (generated from `palettes/`) and the extensions that draw the input box, messages
+and diffs. See `appearance/README.md`.
 
 ## package/
 

@@ -1,16 +1,17 @@
 /**
- * opencode-style message colors that pi's theme format cannot express.
+ * Message colors that pi's theme format cannot express, from the active theme's palette roles
+ * (../lib/palette.ts). With a theme that is not made from a palette, 1 and 2 are off.
  *
  * 1. Markdown (all messages):
- *      plain text      #eeeeee          (opencode markdownText; pi leaves assistant text uncolored)
- *      **bold**        orange  #f5a742  (opencode markdownStrong)
- *      *italic*        yellow  #e5c07b  (opencode markdownEmph)
- *      1. 2. numbers   cyan    #56b6c2  (opencode markdownListEnumeration; bullets keep mdListBullet)
+ *      plain text      markdownText            (pi leaves assistant text uncolored)
+ *      **bold**        markdownStrong
+ *      *italic*        markdownEmph
+ *      1. 2. numbers   markdownListEnumeration (bullets keep pi's mdListBullet)
  *    Bold/italic replace the surrounding text color (also inside quotes and lists) but keep its other
  *    styling; inline code and links inside them keep their own colors.
- *    Headings, links, code, quotes, rules and bullets come from the theme (themes/opencode.json).
+ *    Headings, links, code, quotes, rules and bullets come from the pi theme itself.
  *    Text that has its own color (your messages, thinking) keeps it.
- * 2. Your messages: a blue left bar (#5c9cf5) on the #141414 panel, like opencode.
+ * 2. Your messages: a left bar in secondary on the backgroundPanel panel, like opencode.
  * 3. Text selection (fullscreen mode) covers only text, like opencode: the left gutter (padding, box
  *    padding, the `▎ ` bar) shared by the selected rows is skipped, so code keeps its indentation,
  *    and every row stops at its last character instead of the right edge. Applies to both the
@@ -23,18 +24,8 @@
 
 import { type ExtensionAPI, UserMessageComponent } from "@earendil-works/pi-coding-agent";
 import { Markdown, TuiAltScreen, visibleWidth } from "@earendil-works/pi-tui";
+import { bg as BG, fg as FG, roles, trackUi } from "../lib/palette.ts";
 
-// ---- colors: opencode's theme file (dark) ----
-const TEXT = "#eeeeee";
-const STRONG = "#f5a742";
-const EMPH = "#e5c07b";
-const ENUM = "#56b6c2";
-const BAR = "#5c9cf5"; // secondary
-const PANEL = "#141414"; // backgroundPanel (pi userMessageBg)
-
-const rgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(";");
-const FG = (hex: string) => `\x1b[38;2;${rgb(hex)}m`;
-const BG = (hex: string) => `\x1b[48;2;${rgb(hex)}m`;
 const FG_RESET = "\x1b[39m";
 
 /** Does this SGR parameter list reset the foreground (0, 39, or an empty reset)? */
@@ -70,6 +61,7 @@ function stripForeground(s: string): string {
 const plainText = (line: string) =>
 	line.replace(/\x1b\[[0-9;:?]*[A-Za-z]|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)|\x1b_[^\x07]*\x07/g, "");
 
+// Keys predate the move to appearance/: renaming ORIG would make /reload wrap old wrappers.
 const ORIG = Symbol.for("krafts.opencodeMessages.orig");
 const REAL = Symbol.for("krafts.opencodeMessages.realTheme");
 const SEL = Symbol.for("krafts.opencodeMessages.selection");
@@ -90,26 +82,28 @@ function install() {
 	orig.applySelection ??= altProto.applySelection;
 
 	// ---- plain text color for markdown that has none (assistant replies, summaries) ----
-	const processed = new WeakMap<string[], string[]>();
-	const on = FG(TEXT);
+	const processed = new WeakMap<string[], { on: string; out: string[] }>();
 	mdProto.render = function (width: number) {
 		const lines: string[] = orig.render.call(this, width);
-		if (this.defaultTextStyle !== undefined) return lines;
-		let out = processed.get(lines);
+		const r = roles();
+		if (!r || this.defaultTextStyle !== undefined) return lines;
+		const on = FG(r.markdownText);
+		let out = processed.get(lines)?.on === on ? processed.get(lines)!.out : undefined;
 		if (!out) {
 			out = lines.map((line) =>
 				line === ""
 					? line
 					: on + line.replace(/\x1b\[([0-9;:]*)m/g, (m, params) => (resetsForeground(params) ? m + on : m)) + FG_RESET,
 			);
-			processed.set(lines, out); // pi caches `lines` until the text or width changes
+			processed.set(lines, { on, out }); // pi caches `lines` until the text or width changes
 		}
 		return out;
 	};
 
 	// ---- bold / italic: their own style context, so the color wins over the surrounding style ----
 	mdProto.renderInlineTokens = function (tokens: any[], styleContext?: any) {
-		if (!tokens?.some((t) => t.type === "strong" || t.type === "em")) {
+		const r = roles();
+		if (!r || !tokens?.some((t) => t.type === "strong" || t.type === "em")) {
 			return orig.renderInlineTokens.call(this, tokens, styleContext);
 		}
 		const ctx = styleContext ?? this.getDefaultInlineStyleContext();
@@ -125,7 +119,7 @@ function install() {
 				continue;
 			}
 			flush();
-			const hex = token.type === "strong" ? STRONG : EMPH;
+			const hex = token.type === "strong" ? r.markdownStrong : r.markdownEmph;
 			const prefix = stripForeground(ctx.stylePrefix ?? "") + FG(hex);
 			const inner = {
 				applyText: (text: string) => FG(hex) + stripForeground(ctx.applyText(text)) + FG_RESET,
@@ -141,15 +135,16 @@ function install() {
 		return result;
 	};
 
-	// ---- ordered list numbers in cyan; unordered bullets (also nested) keep the theme's color ----
+	// ---- ordered list numbers in markdownListEnumeration; bullets (also nested) keep the theme's ----
 	mdProto.renderList = function (token: any, ...rest: any[]) {
+		const r = roles();
 		const current = this.theme;
 		const real = current[REAL] ?? current; // pi's own markdown theme
 		let theme = real;
-		if (token?.ordered) {
+		if (r && token?.ordered) {
 			theme = Object.create(real);
 			theme[REAL] = real;
-			theme.listBullet = (s: string) => FG(ENUM) + s + FG_RESET;
+			theme.listBullet = (s: string) => FG(r.markdownListEnumeration) + s + FG_RESET;
 		}
 		this.theme = theme;
 		try {
@@ -199,8 +194,9 @@ function install() {
 
 	// ---- your messages: blue bar on the left ----
 	umProto.render = function (width: number) {
-		if (width < 4) return orig.userRender.call(this, width);
-		const prefix = BG(PANEL) + FG(BAR) + "\u258e" + FG_RESET + " ";
+		const r = roles();
+		if (!r || width < 4) return orig.userRender.call(this, width);
+		const prefix = BG(r.backgroundPanel) + FG(r.secondary) + "\u258e" + FG_RESET + " ";
 		// pi starts the first and last rows with OSC 133 prompt marks. Keep them at column 0, before
 		// the bar: a terminal that sees `133;A` mid-line starts a fresh line, which broke the top row.
 		return orig.userRender.call(this, width - 2).map((line: string) => {
@@ -210,6 +206,7 @@ function install() {
 	};
 }
 
-export default function (_pi: ExtensionAPI) {
+export default function (pi: ExtensionAPI) {
 	install();
+	pi.on("session_start", async (_event, ctx) => trackUi(ctx.ui));
 }

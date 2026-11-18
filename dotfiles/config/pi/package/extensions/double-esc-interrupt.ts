@@ -14,7 +14,7 @@ import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-a
 import { isKeyRelease, matchesKey } from "@earendil-works/pi-tui";
 
 const WINDOW_MS = 2000;
-// Shared with opencode-box.ts, which shows "esc again to interrupt" while this is in the future.
+// Shared with appearance/extensions/input-box.ts, which shows "esc again to interrupt" while this is in the future.
 const ARMED_KEY = Symbol.for("krafts.escArmedUntil");
 
 export default function (pi: ExtensionAPI) {

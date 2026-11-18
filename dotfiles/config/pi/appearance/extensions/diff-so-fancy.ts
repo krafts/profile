@@ -1,5 +1,5 @@
 /**
- * diff-so-fancy-style edit diffs (design: ~/pi-design/diffs-dsf.png, section "Alternative").
+ * diff-so-fancy-style edit diffs.
  *
  * Colors and highlighting follow diff-so-fancy's defaults (its DiffHighlight.pm), the same as
  * `git diff` through diff-so-fancy in the terminal:
@@ -13,8 +13,8 @@
  *   empty +/- line      its first cell is a red / green block (diff-so-fancy markEmptyLines)
  * The -/+ markers and line numbers stay, in the line's color.
  *
- * The box background is the theme's tool panel (toolSuccessBg; #141414 in themes/opencode.json,
- * opencode's backgroundPanel); the changed-part spans and line ends return to it.
+ * The box background is the theme's tool panel (toolSuccessBg, the palette's backgroundPanel);
+ * the changed-part spans and line ends return to it. Works with any theme.
  *
  * How: the built-in edit tool is re-registered with its own definition (same execution, prompt
  * and renderers); after pi's renderers build the box, the diff body is swapped for this one.
