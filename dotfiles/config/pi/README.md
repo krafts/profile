@@ -9,10 +9,9 @@ dotfiles/config/pi/
 ├── keybindings.json     ← symlinked to ~/.pi/agent/keybindings.json
 ├── appearance/          ← pi's look: palettes → themes, input box, messages, diffs
 │                           (a pi package; see appearance/README.md)
-└── package/             ← other extensions and themes (loaded as a pi package)
+└── package/             ← other extensions (loaded as a pi package)
     ├── package.json
-    ├── extensions/
-    └── themes/
+    └── extensions/
 ```
 
 ## settings.json
